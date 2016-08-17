@@ -7,15 +7,7 @@ var bodyParser = require('body-parser');
 var sessions = require("client-sessions");
 var flash = require('connect-flash');
 
-var index = require('./routes/index');
-var login = require('./routes/login');
-var logout = require('./routes/logout');
-var admin = require('./routes/admin');
-
-var requireAuthentication = require('./middlewares/requireAuthentication');
-
-var db = require('./lib/db');
-var seed = require('./lib/seed'); // populate the database (if needed)
+require('./lib/seed'); // populate the database (if needed)
 
 var app = express();
 
@@ -39,13 +31,31 @@ app.use(sessions({
 app.use(flash());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', index);
-app.use('/login', login);
-app.use('/logout', logout);
-app.use('/admin', requireAuthentication, admin);
+// routes
+app.use('/', require('./routes/index'));
+app.use('/login', require('./routes/login'));
+app.use('/logout', require('./routes/logout'));
+app.use('/admin', require('./middlewares/requireAuthentication'), require('./routes/admin'));
+
+// url helpers
+var join = path.posix.join; // a temporary hack
+app.locals.root_path = '/';
+app.locals.login_path = join(app.locals.root_path, 'login');
+app.locals.logout_path = join(app.locals.root_path, 'logout');
+app.locals.admin_path = join(app.locals.root_path, 'admin');
+app.locals.users_path = join(app.locals.admin_path, 'users');
+app.locals.new_user_path = join(app.locals.users_path, 'new');
+app.locals.user_path = user => {
+  console.log(app.locals.users_path, user._id);
+  console.log(join(app.locals.users_path, user._id));
+  return join(app.locals.users_path, user._id);
+};
+app.locals.edit_user_path = user => {
+  return join(app.locals.user_path(user), 'edit');
+};
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use((req, res, next) => {
   var err = new Error('Not Found');
   err.status = 404;
   next(err);
@@ -56,7 +66,7 @@ app.use(function(req, res, next) {
 // development error handler
 // will print stacktrace
 if (app.get('env') === 'development') {
-  app.use(function(err, req, res, next) {
+  app.use((err, req, res, next) => {
     res.status(err.status || 500);
     res.render('error', {
       message: err.message,
@@ -67,7 +77,7 @@ if (app.get('env') === 'development') {
 
 // production error handler
 // no stacktraces leaked to user
-app.use(function(err, req, res, next) {
+app.use((err, req, res, next) => {
   res.status(err.status || 500);
   res.render('error', {
     message: err.message,

@@ -1,13 +1,19 @@
 var express = require('express');
 var router = express.Router();
-var nextPage = '/admin';
 var User = require('../models/user');
+
+router.use((req, res, next) => {
+  res.locals.next_page = req.app.locals.admin_path;
+  res.locals.title = 'Login';
+  next();
+});
 
 router.get('/', (req, res, next) => {
   if (req.session.user) {
-    res.redirect(nextPage);
+    res.redirect(res.locals.next_page);
   } else {
-    res.render('login', { title: 'Login', error: req.flash('login_error') });
+    res.locals.error = req.flash('login_error')
+    res.render('login');
   }
 });
 
@@ -15,10 +21,11 @@ router.post('/', (req, res, next) => {
   User.authenticate(req.body.username, req.body.password, id => {
     if (id) {
       req.session.user = id;
-      res.redirect(nextPage);
+      res.redirect(res.locals.next_page);
     } else {
       delete req.session.user;
-      res.render('login', { title: 'Login', error: 'Invalid username or password' });
+      res.locals.error = 'Invalid username or password';
+      res.render('login');
     }
   });
 });
