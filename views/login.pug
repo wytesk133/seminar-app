@@ -4,6 +4,6 @@ block content
   if error
     p= error
   form(method='post')
-    input(type='text', name='username', placeholder='Username')
-    input(type='password', name='password', placeholder='Password')
+    input(type='text', name='username', placeholder='Username', required, autofocus)
+    input(type='password', name='password', placeholder='Password', required)
     button(type='submit') Login

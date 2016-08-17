@@ -1,9 +1,8 @@
 var express = require('express');
 var router = express.Router();
-var requireAuthentication = require('../../middlewares/requireAuthentication');
 
-router.get('/', requireAuthentication, (req, res, next) => {
-  res.send('It Works!');
+router.get('/', (req, res, next) => {
+  res.send(`Welcome ${req.session.user.name}!`);
 });
 
 module.exports = router;

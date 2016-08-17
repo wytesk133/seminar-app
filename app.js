@@ -12,6 +12,11 @@ var login = require('./routes/login');
 var logout = require('./routes/logout');
 var admin = require('./routes/admin');
 
+var requireAuthentication = require('./middlewares/requireAuthentication');
+
+var db = require('./lib/db');
+var seed = require('./lib/seed'); // populate the database (if needed)
+
 var app = express();
 
 // view engine setup
@@ -31,7 +36,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', index);
 app.use('/login', login);
 app.use('/logout', logout);
-app.use('/admin', admin);
+app.use('/admin', requireAuthentication, admin);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
