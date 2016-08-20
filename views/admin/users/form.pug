@@ -1,0 +1,27 @@
+extends ../../layout
+
+block content
+  if mode == 'new'
+    h1 New User
+  else
+    h1 Edit User
+  if error
+    p= error
+  form(method='post',autocomplete='off')
+    label(for='user[username]') Username
+    p: input(type='text', name='user[username]', placeholder='Username', required, autofocus, value=user.username)
+    label(for='user[full_name]') Full Name
+    p: input(type='text', name='user[full_name]', placeholder='Full Name', required, value=user.full_name)
+    label(for='user[password]') Password
+    if mode == 'new'
+      p: input(type='password', name='user[password]', placeholder='Password', required)
+    else
+      p: input(type='password', name='user[password]', placeholder='Password')
+    label(for='user[password_confirmation]') Password Confirmation
+    p: input(type='password', name='user[password_confirmation]', placeholder='Confirm Password')
+    if mode == 'new'
+      button(type='submit') Create
+    else
+      p Leave the fields blank if you don't want to change the password
+      button(type='submit') Save
+    a(href='javascript:history.back()') Cancel

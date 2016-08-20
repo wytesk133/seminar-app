@@ -53,6 +53,9 @@ app.locals.user_path = user => {
 app.locals.edit_user_path = user => {
   return join(app.locals.user_path(user), 'edit');
 };
+app.locals.delete_user_path = user => {
+  return join(app.locals.user_path(user), 'delete');
+};
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {

@@ -1,0 +1,24 @@
+extends ../../layout
+
+block content
+  h1 All Users
+  a(href=new_user_path) New
+  if msg
+    p= msg
+  table
+    thead
+      tr
+        th Username
+        th Full Name
+        th Operations
+    tbody
+      each user in users
+        tr
+          td= user.username
+          td= user.full_name
+          td
+            a(href=user_path(user)) View
+            | &nbsp;|&nbsp;
+            a(href=edit_user_path(user)) Edit
+            | &nbsp;|&nbsp;
+            a(href=delete_user_path(user)) Delete

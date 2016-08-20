@@ -3,30 +3,31 @@ var router = express.Router();
 var User = require('../models/user');
 
 router.use((req, res, next) => {
-  res.locals.next_page = req.app.locals.admin_path;
+  res.next_page = req.app.locals.admin_path;
   res.locals.title = 'Login';
   next();
 });
 
-router.get('/', (req, res, next) => {
-  if (req.session.user) {
-    res.redirect(res.locals.next_page);
+router.route('/')
+.get((req, res, next) => {
+  if (req.session.current_user_id) {
+    res.redirect(res.next_page);
   } else {
-    res.locals.error = req.flash('login_error')
-    res.render('login');
+    res.render('login', { error: req.flash('login_error') });
   }
-});
-
-router.post('/', (req, res, next) => {
-  User.authenticate(req.body.username, req.body.password, id => {
-    if (id) {
-      req.session.user = id;
-      res.redirect(res.locals.next_page);
-    } else {
-      delete req.session.user;
-      res.locals.error = 'Invalid username or password';
-      res.render('login');
-    }
+})
+.post((req, res, next) => {
+  delete req.session.current_user_id; //clear old session data
+  User.findBy('username', req.body.username, user => {
+    if (!user) res.render('login', { error: 'Invalid username or password' });
+    user.authenticate(req.body.password, ok => {
+      if (ok) {
+        req.session.current_user_id = user._id;
+        res.redirect(res.next_page);
+      } else {
+        res.render('login', { error: 'Invalid username or password' });
+      }
+    });
   });
 });
 
