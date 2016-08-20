@@ -8,17 +8,17 @@ block content
   if error
     p= error
   form(method='post',autocomplete='off')
-    label(for='user[username]') Username
-    p: input(type='text', name='user[username]', placeholder='Username', required, autofocus, value=user.username)
-    label(for='user[full_name]') Full Name
-    p: input(type='text', name='user[full_name]', placeholder='Full Name', required, value=user.full_name)
-    label(for='user[password]') Password
+    label(for='username') Username
+    p: input(type='text', id='username', name='user[username]', placeholder='Username', required, autofocus, value=user.username)
+    label(for='full_name') Full Name
+    p: input(type='text', id='full_name', name='user[full_name]', placeholder='Full Name', required, value=user.full_name)
+    label(for='password') Password
     if mode == 'new'
-      p: input(type='password', name='user[password]', placeholder='Password', required)
+      p: input(type='password', id='password', name='user[password]', placeholder='Password', required)
     else
-      p: input(type='password', name='user[password]', placeholder='Password')
-    label(for='user[password_confirmation]') Password Confirmation
-    p: input(type='password', name='user[password_confirmation]', placeholder='Confirm Password')
+      p: input(type='password', id='password', name='user[password]', placeholder='Password')
+    label(for='password_confirmation') Password Confirmation
+    p: input(type='password', id='password_confirmation', name='user[password_confirmation]', placeholder='Confirm Password')
     if mode == 'new'
       button(type='submit') Create
     else

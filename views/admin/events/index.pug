@@ -1,0 +1,24 @@
+extends ../../layout
+
+block content
+  h1 All Events
+  a(href=new_event_path) New
+  if msg
+    p= msg
+  table
+    thead
+      tr
+        th Name
+        th Date
+        th Operations
+    tbody
+      each event in events
+        tr
+          td= event.name
+          td= event.date
+          td
+            a(href=event_path(event)) View
+            | &nbsp;|&nbsp;
+            a(href=edit_event_path(event)) Edit
+            | &nbsp;|&nbsp;
+            a(href=delete_event_path(event)) Delete

@@ -43,11 +43,10 @@ app.locals.root_path = '/';
 app.locals.login_path = join(app.locals.root_path, 'login');
 app.locals.logout_path = join(app.locals.root_path, 'logout');
 app.locals.admin_path = join(app.locals.root_path, 'admin');
+// users
 app.locals.users_path = join(app.locals.admin_path, 'users');
 app.locals.new_user_path = join(app.locals.users_path, 'new');
 app.locals.user_path = user => {
-  console.log(app.locals.users_path, user._id);
-  console.log(join(app.locals.users_path, user._id));
   return join(app.locals.users_path, user._id);
 };
 app.locals.edit_user_path = user => {
@@ -55,6 +54,18 @@ app.locals.edit_user_path = user => {
 };
 app.locals.delete_user_path = user => {
   return join(app.locals.user_path(user), 'delete');
+};
+// events
+app.locals.events_path = join(app.locals.admin_path, 'events');
+app.locals.new_event_path = join(app.locals.events_path, 'new');
+app.locals.event_path = event => {
+  return join(app.locals.events_path, event._id);
+};
+app.locals.edit_event_path = event => {
+  return join(app.locals.event_path(event), 'edit');
+};
+app.locals.delete_event_path = event => {
+  return join(app.locals.event_path(event), 'delete');
 };
 
 // catch 404 and forward to error handler

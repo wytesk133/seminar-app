@@ -1,0 +1,19 @@
+extends ../../layout
+
+block content
+  if mode == 'new'
+    h1 New Event
+  else
+    h1 Edit Event
+  if error
+    p= error
+  form(method='post',autocomplete='off')
+    label(for='name') Name
+    p: input(type='text', id='name', name='event[name]', placeholder='Event Name', required, autofocus, value=event.name)
+    label(for='date') Date
+    p: input(type='text', id='date', name='event[date]', placeholder='Event Date', required, value=event.date)
+    if mode == 'new'
+      button(type='submit') Create
+    else
+      button(type='submit') Save
+    a(href='javascript:history.back()') Cancel

@@ -3,5 +3,5 @@ extends ../layout
 block content
   h1 Welcome #{current_user.full_name}!
   ul
-    li
-      a(href=users_path) User Management
+    li: a(href=users_path) User Management
+    li: a(href=events_path) Event Management

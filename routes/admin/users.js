@@ -1,4 +1,3 @@
-var url = require('url');
 var express = require('express');
 var router = express.Router();
 var User = require('../../models/user');
@@ -80,6 +79,8 @@ router.route('/:id/edit')
 
 // GET /users/:id/delete
 // confirm destroy
+// POST /users/:id/delete
+// destroy
 router.route('/:id/delete')
 .get((req, res, next) => {
   res.render('admin/users/delete');

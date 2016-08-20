@@ -1,0 +1,14 @@
+extends ../../layout
+
+block content
+  if msg
+    p= msg
+  p: a(href=events_path) Back
+  label Name
+  p= event.name
+  label Date
+  p= event.date
+  p
+    a(href=edit_event_path(event)) Edit
+    | &nbsp;|&nbsp;
+    a(href=delete_event_path(event)) Delete
