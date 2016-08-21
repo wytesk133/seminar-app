@@ -1,0 +1,16 @@
+extends ../../layout
+
+block content
+  if msg
+    p= msg
+  p: a(href=event_path(event)) Back
+  label Name
+  p= participant.name
+  label Company
+  p= participant.company
+  label Token
+  p= participant.token
+  p
+    a(href=edit_participant_path(participant)) Edit
+    | &nbsp;|&nbsp;
+    a(href=delete_participant_path(participant)) Delete

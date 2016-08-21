@@ -12,3 +12,24 @@ block content
     a(href=edit_event_path(event)) Edit
     | &nbsp;|&nbsp;
     a(href=delete_event_path(event)) Delete
+  h1 Participants
+  a(href=add_participant_path(event)) Add
+  if participants_msg
+    p= participants_msg
+  table
+    thead
+      tr
+        th Name
+        th Company
+        th Operations
+    tbody
+      each participant in participants
+        tr
+          td= participant.name
+          td= participant.company
+          td
+            a(href=participant_path(participant)) View
+            | &nbsp;|&nbsp;
+            a(href=edit_participant_path(participant)) Edit
+            | &nbsp;|&nbsp;
+            a(href=delete_participant_path(participant)) Delete

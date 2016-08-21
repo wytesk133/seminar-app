@@ -8,6 +8,7 @@ var sessions = require("client-sessions");
 var flash = require('connect-flash');
 
 require('./lib/seed'); // populate the database (if needed)
+require('./lib/associations'); // setup model associations
 
 var app = express();
 
@@ -66,6 +67,19 @@ app.locals.edit_event_path = event => {
 };
 app.locals.delete_event_path = event => {
   return join(app.locals.event_path(event), 'delete');
+};
+// participants
+app.locals.add_participant_path = event => {
+  return join(app.locals.event_path(event), 'add');
+};
+app.locals.participant_path = participant => {
+  return join(app.locals.admin_path, 'participants', participant._id);
+};
+app.locals.edit_participant_path = participant => {
+  return join(app.locals.participant_path(participant), 'edit');
+};
+app.locals.delete_participant_path = participant => {
+  return join(app.locals.participant_path(participant), 'delete');
 };
 
 // catch 404 and forward to error handler

@@ -1,0 +1,19 @@
+extends ../../layout
+
+block content
+  if mode == 'new'
+    h1 New Participant
+  else
+    h1 Edit Participant
+  if error
+    p= error
+  form(method='post',autocomplete='off')
+    label(for='name') Name
+    p: input(type='text', id='name', name='participant[name]', placeholder='Participant Name', required, autofocus, value=participant.name)
+    label(for='company') Company
+    p: input(type='text', id='company', name='participant[company]', placeholder='Participant Company', required, value=participant.company)
+    if mode == 'new'
+      button(type='submit') Create
+    else
+      button(type='submit') Save
+    a(href='javascript:history.back()') Cancel

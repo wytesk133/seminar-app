@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var Event = require('../../models/event');
+var Participant = require('../../models/participant');
 var params = require('params');
 
 router.use((req, res, next) => {
@@ -8,6 +9,10 @@ router.use((req, res, next) => {
   if (req.body.event) {
     params(req.body.event).require('name', 'date');
     req.body.event = params(req.body.event).only('name', 'date', 'agenda');
+  }
+  if (req.body.participant) {
+    params(req.body.participant).require('name');
+    req.body.participant = params(req.body.participant).only('name', 'company', 'photo');
   }
   next();
 });
@@ -48,7 +53,13 @@ router.route('/new')
 // GET /events/:id
 // show
 router.get('/:id', (req, res, next) => {
-  res.render('admin/events/show', { msg: req.flash('events_msg') });
+  res.locals.event.participants(participants => {
+    res.render('admin/events/show', {
+      msg: req.flash('events_msg'),
+      participants: participants,
+      participants_msg: req.flash('participants_msg')
+    });
+  });
 });
 
 // GET /events/:id/edit
@@ -105,6 +116,40 @@ router.param('id', (req, res, next, id) => {
       next();
     } else {
       next(new Error('Event not found'));
+    }
+  });
+});
+
+// GET /events/:id/add
+// new
+// POST /events/:id/add
+// create
+router.route('/:id/add')
+.all((req, res, next) => {
+  res.locals.title = 'Participant Management';
+  res.locals.mode = 'new';
+  next();
+})
+.get((req, res, next) => {
+  res.render('admin/participants/form', { participant: {} });
+})
+.post((req, res, next) => {
+  participant = new Participant(req.body.participant);
+  participant.event_id = res.locals.event._id;
+  require('crypto').randomBytes(4, (err, buffer) => {
+    if (err) {
+      res.render('admin/participants/form', { participant: participant, error: 'Error saving: ' + err.message });
+    } else {
+      participant.token = buffer.toString('hex');
+      participant.save(err => {
+        if (err) {
+          res.render('admin/participants/form', { participant: participant, error: 'Error saving: ' + err.message });
+        } else {
+          req.flash('participants_msg');
+          req.flash('participants_msg', 'Participant created');
+          res.redirect(req.app.locals.participant_path(participant));
+        }
+      });
     }
   });
 });

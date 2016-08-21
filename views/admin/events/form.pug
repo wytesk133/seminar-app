@@ -11,7 +11,7 @@ block content
     label(for='name') Name
     p: input(type='text', id='name', name='event[name]', placeholder='Event Name', required, autofocus, value=event.name)
     label(for='date') Date
-    p: input(type='text', id='date', name='event[date]', placeholder='Event Date', required, value=event.date)
+    p: input(type='date', id='date', name='event[date]', placeholder='Event Date', required, value=event.date)
     if mode == 'new'
       button(type='submit') Create
     else
