@@ -1,0 +1,9 @@
+extends ../../layout
+
+block content
+  h1 Import Participants
+  p ["name", "position", "company"] for each line
+  form(method='post',autocomplete='off')
+    textarea(name='input')
+    button(type='submit') Import
+    a(href=event_path(event)) Cancel

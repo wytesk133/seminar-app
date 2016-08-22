@@ -4,6 +4,7 @@ var db = require('../../lib/db');
 var Event = require('../../models/event');
 var Participant = require('../../models/participant');
 var params = require('params');
+var async = require('async');
 
 router.use((req, res, next) => {
   res.locals.title = 'Event Management';
@@ -13,7 +14,7 @@ router.use((req, res, next) => {
   }
   if (req.body.participant) {
     params(req.body.participant).require('name');
-    req.body.participant = params(req.body.participant).only('name', 'company', 'photo');
+    req.body.participant = params(req.body.participant).only('name', 'position', 'company');
   }
   next();
 });
@@ -68,6 +69,11 @@ router.get('/clear', (req, res, next) => {
 // show
 router.get('/:id', (req, res, next) => {
   res.locals.event.participants(participants => {
+    participants.sort((a, b) => {
+      if (a.created_at < b.created_at) return -1;
+      if (a.created_at > b.created_at) return 1;
+      return 0;
+    });
     res.render('admin/events/show', {
       msg: req.flash('events_msg'),
       participants: participants,
@@ -177,6 +183,52 @@ router.route('/:id/add')
           res.redirect(req.app.locals.participant_path(participant));
         }
       });
+    }
+  });
+});
+
+// GET /events/:id/import
+// bulk new
+// POST /events/:id/import
+// bulk create
+router.route('/:id/import')
+.get((req, res, next) => {
+  res.locals.title = 'Participant Management';
+  res.render('admin/participants/import');
+})
+.post((req, res, next) => {
+  var count = 0;
+  async.eachSeries(req.body.input.split('\n'), (line, callback) => {
+    try {
+      var data = JSON.parse(line);
+    } catch (err) {
+      // skip
+      return callback(null);
+    }
+    participant = new Participant({ name: data[0], position: data[1], company: data[2] });
+    participant.event_id = res.locals.event._id;
+    require('crypto').randomBytes(4, (err, buffer) => {
+      if (err) {
+        callback(err);
+      } else {
+        participant.token = buffer.toString('hex');
+        participant.save(err => {
+          if (err) {
+            callback(err);
+          } else {
+            count ++;
+            callback(null);
+          }
+        });
+      }
+    });
+  }, err => {
+    if (err) {
+      next(err);
+    } else {
+      req.flash('participants_msg');
+      req.flash('participants_msg', `${count} participant(s) created`);
+      res.redirect(req.app.locals.event_path(res.locals.event));
     }
   });
 });

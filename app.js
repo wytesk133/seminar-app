@@ -82,6 +82,9 @@ app.locals.clear_event_path =  join(app.locals.events_path, 'clear');
 app.locals.add_participant_path = event => {
   return join(app.locals.event_path(event), 'add');
 };
+app.locals.import_participant_path = event => {
+  return join(app.locals.event_path(event), 'import');
+};
 app.locals.participant_path = participant => {
   return join(app.locals.admin_path, 'participants', participant._id);
 };

@@ -2,6 +2,8 @@ extends ../../layout
 
 block content
   h1 All Users
+  a(href=admin_path) Back
+  | &nbsp;|&nbsp;
   a(href=new_user_path) New
   if msg
     p= msg

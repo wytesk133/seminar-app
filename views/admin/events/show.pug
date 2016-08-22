@@ -16,12 +16,15 @@ block content
     a(href=delete_event_path(event)) Delete
   h1 Participants
   a(href=add_participant_path(event)) Add
+  | &nbsp;|&nbsp;
+  a(href=import_participant_path(event)) Import
   if participants_msg
     p= participants_msg
   table
     thead
       tr
         th Name
+        th position
         th Company
         th Token
         th Entered
@@ -30,6 +33,7 @@ block content
       each participant in participants
         tr
           td= participant.name
+          td= participant.position
           td= participant.company
           td= participant.token
           td= participant.entered ? 'Yes' : 'No'

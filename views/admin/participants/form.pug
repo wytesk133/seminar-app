@@ -10,6 +10,8 @@ block content
   form(method='post',autocomplete='off')
     label(for='name') Name
     p: input(type='text', id='name', name='participant[name]', placeholder='Participant Name', required, autofocus, value=participant.name)
+    label(for='position') Position
+    p: input(type='text', id='position', name='participant[position]', placeholder='Participant Position', required, value=participant.position)
     label(for='company') Company
     p: input(type='text', id='company', name='participant[company]', placeholder='Participant Company', required, value=participant.company)
     if mode == 'new'
