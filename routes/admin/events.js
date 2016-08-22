@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+var db = require('../../lib/db');
 var Event = require('../../models/event');
 var Participant = require('../../models/participant');
 var params = require('params');
@@ -46,6 +47,19 @@ router.route('/new')
       req.flash('events_msg');
       req.flash('events_msg', 'Event created');
       res.redirect(req.app.locals.event_path(event));
+    }
+  });
+});
+
+// GET /events/clear
+// set current_event to null
+router.get('/clear', (req, res, next) => {
+  delete res.locals.configurations.current_event_id;
+  db.insert(res.locals.configurations, err => {
+    if (err) {
+      next(err);
+    } else {
+      res.redirect(req.app.locals.events_path);
     }
   });
 });
@@ -103,6 +117,19 @@ router.route('/:id/delete')
     } else {
       req.flash('events_msg');
       req.flash('events_msg', 'Event deleted');
+      res.redirect(req.app.locals.events_path);
+    }
+  });
+});
+
+// GET /events/:id/use
+// set current event
+router.get('/:id/use', (req, res, next) => {
+  res.locals.configurations.current_event_id = res.locals.event._id;
+  db.insert(res.locals.configurations, err => {
+    if (err) {
+      next(err);
+    } else {
       res.redirect(req.app.locals.events_path);
     }
   });

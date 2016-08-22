@@ -33,8 +33,10 @@ app.use(flash());
 app.use(express.static(path.join(__dirname, 'public')));
 
 // routes
+app.use(require('./middlewares/getConfigurations'));
 app.use('/', require('./routes/index'));
 app.use('/enter', require('./routes/enter'));
+app.use('/event', require('./middlewares/requireEnter'), require('./routes/event'));
 // admin stuff
 app.use('/login', require('./routes/login'));
 app.use('/logout', require('./routes/logout'));
@@ -43,6 +45,8 @@ app.use('/admin', require('./middlewares/requireAuthentication'), require('./rou
 // url helpers
 var join = path.posix.join; // a temporary hack
 app.locals.root_path = '/';
+app.locals.event_page_path = join(app.locals.root_path, 'event');
+// admin
 app.locals.login_path = join(app.locals.root_path, 'login');
 app.locals.logout_path = join(app.locals.root_path, 'logout');
 app.locals.admin_path = join(app.locals.root_path, 'admin');
@@ -70,6 +74,10 @@ app.locals.edit_event_path = event => {
 app.locals.delete_event_path = event => {
   return join(app.locals.event_path(event), 'delete');
 };
+app.locals.use_event_path = event => {
+  return join(app.locals.event_path(event), 'use');
+};
+app.locals.clear_event_path =  join(app.locals.events_path, 'clear');
 // participants
 app.locals.add_participant_path = event => {
   return join(app.locals.event_path(event), 'add');

@@ -1,6 +1,8 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}
-  p= participant
+  if current_event
+    h1 Welcome to #{current_event.name}!
+    h2 Please sign in using your QR Code
+  else
+    h1 Service Unavailable

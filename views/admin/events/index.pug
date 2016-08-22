@@ -3,6 +3,8 @@ extends ../../layout
 block content
   h1 All Events
   a(href=new_event_path) New
+  | &nbsp;|&nbsp;
+  a(href=clear_event_path) Clear current event
   if msg
     p= msg
   table
@@ -13,10 +15,12 @@ block content
         th Operations
     tbody
       each event in events
-        tr
+        tr(class=(current_event && current_event._id == event._id ? 'current' : ''))
           td= event.name
           td= event.date
           td
+            a(href=use_event_path(event)) Set current
+            | &nbsp;|&nbsp;
             a(href=event_path(event)) View
             | &nbsp;|&nbsp;
             a(href=edit_event_path(event)) Edit

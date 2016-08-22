@@ -9,6 +9,8 @@ block content
   label Date
   p= event.date
   p
+    a(href=use_event_path(event)) Set current
+    | &nbsp;|&nbsp;
     a(href=edit_event_path(event)) Edit
     | &nbsp;|&nbsp;
     a(href=delete_event_path(event)) Delete
