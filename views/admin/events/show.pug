@@ -21,12 +21,16 @@ block content
       tr
         th Name
         th Company
+        th Token
+        th Entered
         th Operations
     tbody
       each participant in participants
         tr
           td= participant.name
           td= participant.company
+          td= participant.token
+          td= participant.entered ? 'Yes' : 'No'
           td
             a(href=participant_path(participant)) View
             | &nbsp;|&nbsp;

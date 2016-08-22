@@ -34,6 +34,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // routes
 app.use('/', require('./routes/index'));
+app.use('/enter', require('./routes/enter'));
+// admin stuff
 app.use('/login', require('./routes/login'));
 app.use('/logout', require('./routes/logout'));
 app.use('/admin', require('./middlewares/requireAuthentication'), require('./routes/admin'));

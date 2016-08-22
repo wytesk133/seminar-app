@@ -10,6 +10,8 @@ block content
   p= participant.company
   label Token
   p= participant.token
+  label Entered
+  p= participant.entered ? 'Yes' : 'No'
   p
     a(href=edit_participant_path(participant)) Edit
     | &nbsp;|&nbsp;
