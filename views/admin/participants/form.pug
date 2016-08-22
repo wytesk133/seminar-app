@@ -14,6 +14,7 @@ block content
     p: input(type='text', id='company', name='participant[company]', placeholder='Participant Company', required, value=participant.company)
     if mode == 'new'
       button(type='submit') Create
+      a(href=event_path(event)) Cancel
     else
       button(type='submit') Save
-    a(href='javascript:history.back()') Cancel
+      a(href=participant_path(participant)) Cancel

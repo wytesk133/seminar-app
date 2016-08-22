@@ -21,7 +21,8 @@ block content
     p: input(type='password', id='password_confirmation', name='user[password_confirmation]', placeholder='Confirm Password')
     if mode == 'new'
       button(type='submit') Create
+      a(href=users_path) Cancel
     else
       p Leave the fields blank if you don't want to change the password
       button(type='submit') Save
-    a(href='javascript:history.back()') Cancel
+      a(href=user_path(user)) Cancel
