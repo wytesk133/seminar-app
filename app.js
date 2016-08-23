@@ -46,6 +46,7 @@ app.use('/admin', require('./middlewares/requireAuthentication'), require('./rou
 var join = path.posix.join; // a temporary hack
 app.locals.root_path = '/';
 app.locals.event_page_path = join(app.locals.root_path, 'event');
+app.locals.event_agenda_path = join(app.locals.event_page_path, 'agenda');
 // admin
 app.locals.login_path = join(app.locals.root_path, 'login');
 app.locals.logout_path = join(app.locals.root_path, 'logout');

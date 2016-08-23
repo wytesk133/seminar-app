@@ -3,5 +3,5 @@ extends ../layout
 block content
   h1 Hi, #{current_participant.name}!
   ul
-    li: a(href='#') Agenda
+    li: a(href=event_agenda_path) Agenda
     li: a(href='#') Questionnaire

@@ -11,7 +11,10 @@ block content
   label Agenda
   p: a(href=agenda_path(event)) agenda.pdf
   p
-    a(href=use_event_path(event)) Set current
+    if current_event && current_event._id == event._id
+      span Current event
+    else
+      a(href=use_event_path(event)) Set current
     | &nbsp;|&nbsp;
     a(href=edit_event_path(event)) Edit
     | &nbsp;|&nbsp;

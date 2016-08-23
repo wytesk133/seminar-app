@@ -164,7 +164,7 @@ router.get('/:id/use', (req, res, next) => {
 
 // GET /events/:id/agenda
 router.get('/:id/agenda', (req, res, next) => {
-  db.attachment.get(res.locals.event._id, 'agenda.pdf', function(err, body) {
+  db.attachment.get(res.locals.event._id, 'agenda.pdf', (err, body) => {
     if (err) next(err);
     else {
       res.set('Content-Type', 'application/pdf');
