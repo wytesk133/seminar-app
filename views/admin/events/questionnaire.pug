@@ -1,0 +1,23 @@
+extends ../../layout
+
+block content
+  h1 Questionnaire Builder
+  div(ng-app='seminarApp', ng-controller='QuestionnaireBuilderController')
+    h2 Questions
+    form(method='post', action=questionnaire_builder_path(event))
+      div(ng-repeat='q in questionnaire')
+        input(ng-model='q.question', required)
+        select(ng-model='q.type', ng-options='option.value as option.name for option in types')
+        button(ng-click='remove(q)') x
+      input(type='hidden', name='questionnaire', value='{{questionnaire}}')
+      button(type='submit') Save
+      a(href=event_path(event)) Cancel
+    h2 New Question
+    form(ng-submit='add()')
+      input(ng-model='new.question', required, placeholder='Question Text')
+      select(ng-model='new.type', ng-options='option.value as option.name for option in types', required)
+        option(value='') Question Type
+      button(type='submit') +
+  script var data=!{questionnaire};
+  script(defer, src='https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js')
+  script(defer, src=javascripts_path+'/app.js')

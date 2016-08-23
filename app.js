@@ -45,6 +45,9 @@ app.use('/admin', require('./middlewares/requireAuthentication'), require('./rou
 // url helpers
 var join = path.posix.join; // a temporary hack
 app.locals.root_path = '/';
+app.locals.images_path = join(app.locals.root_path, 'images');
+app.locals.javascripts_path = join(app.locals.root_path, 'javascripts');
+app.locals.stylesheets_path = join(app.locals.root_path, 'stylesheets');
 app.locals.event_page_path = join(app.locals.root_path, 'event');
 app.locals.event_agenda_path = join(app.locals.event_page_path, 'agenda');
 // admin
@@ -86,6 +89,9 @@ app.locals.qr_path = event => {
 };
 app.locals.clear_entry_path = event => {
   return join(app.locals.event_path(event), 'clear');
+};
+app.locals.questionnaire_builder_path = event => {
+  return join(app.locals.event_path(event), 'questionnaire');
 };
 app.locals.clear_event_path =  join(app.locals.events_path, 'clear');
 // participants

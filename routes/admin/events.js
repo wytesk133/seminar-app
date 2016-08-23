@@ -311,4 +311,22 @@ router.route('/:id/import')
   });
 });
 
+router.route('/:id/questionnaire')
+.get((req, res, next) => {
+  res.locals.questionnaire = JSON.stringify(res.locals.event.questionnaire || []);
+  res.render('admin/events/questionnaire', { title: 'Questionnaire' });
+})
+.post((req, res, next) => {
+  // TODO: recursive sanitize
+  res.locals.event.questionnaire = JSON.parse(req.body.questionnaire);
+  res.locals.event.save(err => {
+    if (err) next(err);
+    else {
+      req.flash('events_msg');
+      req.flash('events_msg', 'Questionnaire updated');
+      res.redirect(req.app.locals.event_path(res.locals.event));
+    }
+  });
+});
+
 module.exports = router;

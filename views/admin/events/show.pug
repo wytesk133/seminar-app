@@ -10,6 +10,8 @@ block content
   p= event.date
   label Agenda
   p: a(href=agenda_path(event)) agenda.pdf
+  label Questionnaire
+  p: a(href=questionnaire_builder_path(event)) Go to questionnaire builder
   p
     if current_event && current_event._id == event._id
       span Current event
