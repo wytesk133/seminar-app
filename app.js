@@ -84,6 +84,9 @@ app.locals.agenda_path = event => {
 app.locals.qr_path = event => {
   return join(app.locals.event_path(event), 'qr');
 };
+app.locals.clear_entry_path = event => {
+  return join(app.locals.event_path(event), 'clear');
+};
 app.locals.clear_event_path =  join(app.locals.events_path, 'clear');
 // participants
 app.locals.add_participant_path = event => {

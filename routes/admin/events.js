@@ -204,6 +204,22 @@ router.get('/:id/qr', (req, res, next) => {
   });
 });
 
+// GET /events/:id/clear
+router.get('/:id/clear', (req, res, next) => {
+  res.locals.event.participants(participants => {
+    async.each(participants, (participant, next) => {
+      delete participant.entered;
+      participant.save(next);
+    }, err => {
+      if (err) {
+        next(err);
+      } else {
+        res.redirect(req.app.locals.event_path(res.locals.event));
+      }
+    });
+  });
+});
+
 // parse event id
 router.param('id', (req, res, next, id) => {
   Event.find(id, event => {

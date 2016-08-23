@@ -25,6 +25,8 @@ block content
   a(href=import_participant_path(event)) Import
   | &nbsp;|&nbsp;
   a(href=qr_path(event)) Download QR Code (zip)
+  | &nbsp;|&nbsp;
+  a(href=clear_entry_path(event)) Clear entry
   if participants_msg
     p= participants_msg
   table
