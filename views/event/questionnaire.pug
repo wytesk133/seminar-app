@@ -1,0 +1,17 @@
+extends ../layout
+
+block content
+  h1 #{current_event.name} Feedback
+  form(method='post')
+    each q, index in current_event.questionnaire
+      h3= q.question
+      if q.type == 'text'
+        input(name='answers[]', required)
+      if q.type == 'rating'
+        - for(i=1;i<=5;i++) {
+          label
+            input(type='radio', name='answers[]', value=i, required)
+            = i
+        - }
+    button(type='submit') Save
+    a(href=event_page_path) Cancel

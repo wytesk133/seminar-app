@@ -314,7 +314,7 @@ router.route('/:id/import')
 router.route('/:id/questionnaire')
 .get((req, res, next) => {
   res.locals.questionnaire = JSON.stringify(res.locals.event.questionnaire || []);
-  res.render('admin/events/questionnaire', { title: 'Questionnaire' });
+  res.render('admin/events/questionnaire', { title: 'Questionnaire Builder' });
 })
 .post((req, res, next) => {
   // TODO: recursive sanitize

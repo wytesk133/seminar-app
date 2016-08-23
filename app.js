@@ -50,6 +50,7 @@ app.locals.javascripts_path = join(app.locals.root_path, 'javascripts');
 app.locals.stylesheets_path = join(app.locals.root_path, 'stylesheets');
 app.locals.event_page_path = join(app.locals.root_path, 'event');
 app.locals.event_agenda_path = join(app.locals.event_page_path, 'agenda');
+app.locals.event_questionnaire_path = join(app.locals.event_page_path, 'questionnaire');
 // admin
 app.locals.login_path = join(app.locals.root_path, 'login');
 app.locals.logout_path = join(app.locals.root_path, 'logout');

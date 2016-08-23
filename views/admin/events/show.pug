@@ -14,7 +14,7 @@ block content
   p: a(href=questionnaire_builder_path(event)) Go to questionnaire builder
   p
     if current_event && current_event._id == event._id
-      span Current event
+      | Current event
     else
       a(href=use_event_path(event)) Set current
     | &nbsp;|&nbsp;
