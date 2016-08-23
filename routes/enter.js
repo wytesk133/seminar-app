@@ -1,5 +1,4 @@
-var express = require('express');
-var router = express.Router();
+var router = require('express').Router();
 var Participant = require('../models/participant');
 
 router.get('/:token', function(req, res, next) {

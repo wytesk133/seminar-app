@@ -1,5 +1,4 @@
-var express = require('express');
-var router = express.Router();
+var router = require('express').Router();
 
 router.get('/', (req, res, next) => {
   delete req.session.current_user_id;

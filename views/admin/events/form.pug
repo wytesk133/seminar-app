@@ -7,7 +7,7 @@ block content
     h1 Edit Event
   if error
     p= error
-  form(method='post',enctype='multipart/form-data',autocomplete='off')
+  form(method='post', enctype='multipart/form-data', autocomplete='off')
     label(for='name') Name
     p: input(type='text', id='name', name='event[name]', placeholder='Event Name', required, autofocus, value=event.name)
     label(for='date') Date

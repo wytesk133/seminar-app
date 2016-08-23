@@ -1,5 +1,4 @@
-var express = require('express');
-var router = express.Router();
+var router = require('express').Router();
 var db = require('../lib/db');
 
 router.get('/', (req, res, next) => {

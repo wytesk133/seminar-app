@@ -7,7 +7,7 @@ block content
     h1 Edit Participant
   if error
     p= error
-  form(method='post',autocomplete='off')
+  form(method='post', autocomplete='off')
     label(for='name') Name
     p: input(type='text', id='name', name='participant[name]', placeholder='Participant Name', required, autofocus, value=participant.name)
     label(for='position') Position

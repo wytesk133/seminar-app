@@ -7,7 +7,7 @@ block content
     h1 Edit User
   if error
     p= error
-  form(method='post',autocomplete='off')
+  form(method='post', autocomplete='off')
     label(for='username') Username
     p: input(type='text', id='username', name='user[username]', placeholder='Username', required, autofocus, value=user.username)
     label(for='full_name') Full Name
