@@ -15,11 +15,14 @@
     "cookie-parser": "1.4.3",
     "debug": "2.2.0",
     "express": "4.14.0",
+    "jszip": "3.1.1",
     "morgan": "1.7.0",
     "multer": "1.2.0",
     "params": "0.1.1",
     "pug": "2.0.0-beta5",
-    "serve-favicon": "2.3.0"
+    "qr-image": "3.1.0",
+    "serve-favicon": "2.3.0",
+    "stream-to-buffer": "0.1.0"
   },
   "engines": {
     "node": "6.4.0",

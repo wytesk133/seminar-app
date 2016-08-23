@@ -23,13 +23,15 @@ block content
   a(href=add_participant_path(event)) Add
   | &nbsp;|&nbsp;
   a(href=import_participant_path(event)) Import
+  | &nbsp;|&nbsp;
+  a(href=qr_path(event)) Download QR Code (zip)
   if participants_msg
     p= participants_msg
   table
     thead
       tr
         th Name
-        th position
+        th Position
         th Company
         th Token
         th Entered

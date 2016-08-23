@@ -7,6 +7,9 @@ var params = require('params');
 var async = require('async');
 var multer = require('multer');
 var upload = multer({ storage: multer.memoryStorage() });
+var Zip = require('jszip');
+var qr = require('qr-image');
+var streamToBuffer = require('stream-to-buffer');
 
 router.use((req, res, next) => {
   res.locals.title = 'Event Management';
@@ -136,6 +139,9 @@ router.route('/:id/delete')
   res.render('admin/events/delete');
 })
 .post((req, res, next) => {
+  if (res.locals.configurations.current_event_id == res.locals.event._id) {
+    delete res.locals.configurations.current_event_id;
+  }
   res.locals.event.destroy(err => {
     if (err) {
       req.flash('events_msg')
@@ -170,6 +176,31 @@ router.get('/:id/agenda', (req, res, next) => {
       res.set('Content-Type', 'application/pdf');
       res.send(body);
     }
+  });
+});
+
+// GET /events/:id/qr
+router.get('/:id/qr', (req, res, next) => {
+  var zip = new Zip();
+  res.locals.event.participants(participants => {
+    async.each(participants, (participant, next) => {
+      var stream = qr.image(`https://seminar-app.mybluemix.net/enter/${participant.token}`, { type: 'png' });
+      streamToBuffer(stream, (err, buffer) => {
+        name = participant.name.replace(' ', '_').replace(/[^A-Za-z_]/g, '');
+        zip.file(`${name}_${participant.token}.png`, buffer);
+        next();
+      })
+    }, err => {
+      if (err) {
+        next(err);
+      } else {
+        zip.generateAsync({ type: 'nodebuffer'})
+        .then(content => {
+          res.set('Content-Type', 'application/zip');
+          res.send(content);
+        });
+      }
+    });
   });
 });
 
