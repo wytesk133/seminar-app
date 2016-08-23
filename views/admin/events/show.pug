@@ -8,6 +8,8 @@ block content
   p= event.name
   label Date
   p= event.date
+  label Agenda
+  p: a(href=agenda_path(event)) agenda.pdf
   p
     a(href=use_event_path(event)) Set current
     | &nbsp;|&nbsp;

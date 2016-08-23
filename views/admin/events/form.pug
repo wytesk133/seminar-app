@@ -7,11 +7,13 @@ block content
     h1 Edit Event
   if error
     p= error
-  form(method='post',autocomplete='off')
+  form(method='post',enctype='multipart/form-data',autocomplete='off')
     label(for='name') Name
     p: input(type='text', id='name', name='event[name]', placeholder='Event Name', required, autofocus, value=event.name)
     label(for='date') Date
-    p: input(type='date', id='date', name='event[date]', placeholder='YYYY-MM-DD', required, value=event.date)
+    p: input(type='date', id='date', name='event[date]', placeholder='YYYY-MM-DD', value=event.date)
+    label(for='agenda') Agenda (.pdf)
+    p: input(type='file', id='agenda', name='agenda')
     if mode == 'new'
       button(type='submit') Create
       a(href=events_path) Cancel

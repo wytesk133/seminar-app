@@ -5,6 +5,8 @@ var Event = require('../../models/event');
 var Participant = require('../../models/participant');
 var params = require('params');
 var async = require('async');
+var multer = require('multer');
+var upload = multer({ storage: multer.memoryStorage() });
 
 router.use((req, res, next) => {
   res.locals.title = 'Event Management';
@@ -39,11 +41,20 @@ router.route('/new')
 .get((req, res, next) => {
   res.render('admin/events/form', { event: {} });
 })
-.post((req, res, next) => {
+.post(upload.single('agenda'), (req, res, next) => {
   event = new Event(req.body.event);
   event.save(err => {
     if (err) {
       res.render('admin/events/form', { event: event, error: 'Error saving: ' + err.message });
+    } else if (req.file) {
+      db.attachment.insert(event._id, 'agenda.pdf', req.file.buffer, 'application/pdf', { rev: event._rev }, (err, body) => {
+        if (err) next(err);
+        else {
+          req.flash('events_msg');
+          req.flash('events_msg', 'Event updated');
+          res.redirect(req.app.locals.event_path(event));
+        }
+      });
     } else {
       req.flash('events_msg');
       req.flash('events_msg', 'Event created');
@@ -94,10 +105,20 @@ router.route('/:id/edit')
 .get((req, res, next) => {
   res.render('admin/events/form');
 })
-.post((req, res, next) => {
-  res.locals.event.update(req.body.event, err => {
+.post(upload.single('agenda'), (req, res, next) => {
+  var event = res.locals.event;
+  event.update(req.body.event, err => {
     if (err) {
       res.render('admin/events/form', { error: 'Error saving: ' + err.message });
+    } else if (req.file) {
+      db.attachment.insert(event._id, 'agenda.pdf', req.file.buffer, 'application/pdf', { rev: event._rev }, (err, body) => {
+        if (err) next(err);
+        else {
+          req.flash('events_msg');
+          req.flash('events_msg', 'Event updated');
+          res.redirect(req.app.locals.event_path(res.locals.event));
+        }
+      });
     } else {
       req.flash('events_msg');
       req.flash('events_msg', 'Event updated');
@@ -137,6 +158,17 @@ router.get('/:id/use', (req, res, next) => {
       next(err);
     } else {
       res.redirect(req.app.locals.events_path);
+    }
+  });
+});
+
+// GET /events/:id/agenda
+router.get('/:id/agenda', (req, res, next) => {
+  db.attachment.get(res.locals.event._id, 'agenda.pdf', function(err, body) {
+    if (err) next(err);
+    else {
+      res.set('Content-Type', 'application/pdf');
+      res.send(body);
     }
   });
 });

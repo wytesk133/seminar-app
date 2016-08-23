@@ -14,12 +14,14 @@ block content
       tr
         th Name
         th Date
+        th Agenda
         th Operations
     tbody
       each event in events
         tr(class=(current_event && current_event._id == event._id ? 'current' : ''))
           td= event.name
           td= event.date
+          td: a(href=agenda_path(event)) Download
           td
             a(href=use_event_path(event)) Set current
             | &nbsp;|&nbsp;
