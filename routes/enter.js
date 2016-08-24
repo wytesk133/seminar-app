@@ -5,7 +5,7 @@ router.get('/:token', function(req, res, next) {
   Participant.findBy('token', req.params.token, participant => {
     if (participant && participant.event_id == res.locals.configurations.current_event_id) {
       req.session.current_participant_id = participant._id;
-      participant.entered = Date.now();
+      if(!participant.entered) participant.entered = Date.now();
       participant.save(err => {
         if (err) {
           next(err);
