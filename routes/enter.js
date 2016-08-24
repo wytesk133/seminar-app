@@ -2,23 +2,17 @@ var router = require('express').Router();
 var Participant = require('../models/participant');
 
 router.get('/:token', function(req, res, next) {
-  res.participant.entered = Date.now();
-  res.participant.save(err => {
-    if (err) {
-      next(err);
-    } else {
-      req.session.current_participant_id = res.participant._id;
-      res.redirect(req.app.locals.event_page_path);
-    }
-  });
-});
-
-// parse user id
-router.param('token', (req, res, next, token) => {
-  Participant.findBy('token', token, participant => {
+  Participant.findBy('token', req.params.token, participant => {
     if (participant && participant.event_id == res.locals.configurations.current_event_id) {
-      res.participant = participant;
-      next();
+      req.session.current_participant_id = participant._id;
+      participant.entered = Date.now();
+      participant.save(err => {
+        if (err) {
+          next(err);
+        } else {
+          res.render('enter', { random: Date.now() });
+        }
+      });
     } else {
       delete req.session.current_participant_id;
       next(new Error('Invalid token'));

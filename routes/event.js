@@ -1,5 +1,6 @@
 var router = require('express').Router();
 var db = require('../lib/db');
+var TTS = require('watson-developer-cloud/text-to-speech/v1');
 
 router.use((req, res, next) => {
   res.locals.title = res.locals.current_event.name;
@@ -18,6 +19,24 @@ router.get('/agenda', (req, res, next) => {
       res.send(body);
     }
   });
+});
+
+router.get('/say', (req, res, next) => {
+  credentials = JSON.parse(process.env.VCAP_SERVICES).text_to_speech[0].credentials;
+  var tts = new TTS({
+    username: credentials.username,
+    password: credentials.password
+  });
+  var params = {
+    text: `Hello ${res.locals.current_participant.name}! Welcome to ${res.locals.current_event.name}!`,
+    voice: 'en-US_AllisonVoice',
+    accept: 'audio/wav'
+  };
+  var transcript = tts.synthesize(params);
+  transcript.on('error', err => {
+    next(err);
+  });
+  transcript.pipe(res);
 });
 
 router.route('/questionnaire')

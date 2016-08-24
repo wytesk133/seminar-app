@@ -9,3 +9,4 @@ applications:
   command: node ./bin/www
   services:
   - seminar-app-cloudantNoSQLDB
+  - seminar-app-text-to-speech
