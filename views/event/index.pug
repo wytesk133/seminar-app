@@ -1,12 +1,23 @@
 extends ../layout
 
 block content
-  h1 Hi, #{current_participant.name}!
-  ul
-    li: a(href=event_agenda_path) Agenda
-    if current_event.questionnaire_enabled
-      li
-        if current_participant.questionnaire
-          | Questionnaire submitted! Thank you!
-        else
-          a(href=event_questionnaire_path) Questionnaire
+  div(class='row')
+    div(class='col-xs-12 col-md-6 col-md-offset-3')
+      h1 Hello #{current_participant.name}!
+      h2 Welcome to #{current_event.name}!
+      p
+        a(href=event_agenda_path, class='btn btn-info btn-lg btn-block')
+          span(class='glyphicon glyphicon-calendar')
+          |  Agenda
+      p
+        if current_event.questionnaire_enabled
+          if current_participant.questionnaire
+            a(class='btn btn-default btn-lg btn-block disabled')
+              span(class='glyphicon glyphicon-ok')
+              |  Questionnaire submitted!
+              br
+              |  Thank you!
+          else
+            a(href=event_questionnaire_path, class='btn btn-primary btn-lg btn-block')
+              span(class='glyphicon glyphicon-file')
+              |  Questionnaire

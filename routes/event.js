@@ -41,7 +41,7 @@ router.get('/say', (req, res, next) => {
 
 router.route('/questionnaire')
 .all((req, res, next) => {
-  if (!res.locals.current_event.questionnaire_enabled) {
+  if (!res.locals.current_event.questionnaire_enabled || res.locals.current_participant.questionnaire) {
     next(new Error("Don't hack!"));
   } else {
     next();

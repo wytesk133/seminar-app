@@ -1,17 +1,23 @@
 extends ../layout
 
 block content
-  h1 #{current_event.name} Feedback
-  form(method='post')
-    each q, index in current_event.questionnaire
-      h3= q.question
-      if q.type == 'text'
-        input(name='answers[]', required)
-      if q.type == 'rating'
-        - for(i=1;i<=5;i++) {
-          label
-            input(type='radio', name='answers[]', value=i, required)
-            = i
-        - }
-    button(type='submit') Save
-    a(href=event_page_path) Cancel
+  div(class='row')
+    div(class='col-xs-12 col-md-6 col-md-offset-3')
+      h1 #{current_event.name} Feedback
+      form(method='post')
+        each q, index in current_event.questionnaire
+          h3= q.question
+          if q.type == 'text'
+            div(class='form-group')
+              input(name='answers[]', required, class='form-control')
+          if q.type == 'rating'
+            div(class='radio')
+              - for(i=1;i<=5;i++) {
+                label(class='radio-inline')
+                  input(type='radio', name='answers[]', value=i, required)
+                  = i
+              - }
+        p
+          button(type='submit', class='btn btn-primary') Submit
+          | &nbsp;
+          a(href=event_page_path, class='btn btn-default') Cancel
