@@ -12,6 +12,11 @@ block content
   p: a(href=agenda_path(event)) agenda.pdf
   label Questionnaire
   p: a(href=questionnaire_builder_path(event)) Go to questionnaire builder
+  if event.questionnaire_enabled
+    p Currently enabled
+  else
+    p Currently disabled
+  p: a(href=questionnaire_toggle_path(event)) (click to toggle)
   p
     if current_event && current_event._id == event._id
       | Current event

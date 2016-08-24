@@ -311,6 +311,7 @@ router.route('/:id/import')
   });
 });
 
+// questionnaire builder
 router.route('/:id/questionnaire')
 .get((req, res, next) => {
   res.locals.questionnaire = JSON.stringify(res.locals.event.questionnaire || []);
@@ -326,6 +327,16 @@ router.route('/:id/questionnaire')
       req.flash('events_msg', 'Questionnaire updated');
       res.redirect(req.app.locals.event_path(res.locals.event));
     }
+  });
+});
+
+// questionnaire toggle
+router.get('/:id/qtoggle', (req, res, next) => {
+  var event = res.locals.event;
+  event.questionnaire_enabled = !event.questionnaire_enabled;
+  event.save(err => {
+    if (err) next(err);
+    else res.redirect(req.app.locals.event_path(event));
   });
 });
 

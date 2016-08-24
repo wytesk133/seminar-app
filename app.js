@@ -95,6 +95,9 @@ app.locals.clear_entry_path = event => {
 app.locals.questionnaire_builder_path = event => {
   return join(app.locals.event_path(event), 'questionnaire');
 };
+app.locals.questionnaire_toggle_path = event => {
+  return join(app.locals.event_path(event), 'qtoggle');
+};
 app.locals.clear_event_path =  join(app.locals.events_path, 'clear');
 // participants
 app.locals.add_participant_path = event => {

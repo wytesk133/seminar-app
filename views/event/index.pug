@@ -4,8 +4,9 @@ block content
   h1 Hi, #{current_participant.name}!
   ul
     li: a(href=event_agenda_path) Agenda
-    li
-      if current_participant.questionnaire
-        | Questionnaire submitted! Thank you!
-      else
-        a(href=event_questionnaire_path) Questionnaire
+    if current_event.questionnaire_enabled
+      li
+        if current_participant.questionnaire
+          | Questionnaire submitted! Thank you!
+        else
+          a(href=event_questionnaire_path) Questionnaire

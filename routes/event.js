@@ -40,6 +40,13 @@ router.get('/say', (req, res, next) => {
 });
 
 router.route('/questionnaire')
+.all((req, res, next) => {
+  if (!res.locals.current_event.questionnaire_enabled) {
+    next(new Error("Don't hack!"));
+  } else {
+    next();
+  }
+})
 .get((req, res, next) => {
   res.render('event/questionnaire');
 })
