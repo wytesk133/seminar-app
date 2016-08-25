@@ -1,9 +1,19 @@
 extends ../layout
 
 block content
-  h1 Welcome #{current_user.full_name}!
-  ul
-    li: a(href=users_path) User Management
-    li: a(href=events_path) Event Management
-    li: a(href=wordclouds_path) Word Cloud Management
-  p: a(href=logout_path) Logout
+  .row
+    .col-xs-12.col-md-6.col-md-offset-3
+      h1 Welcome #{current_user.full_name}!
+      p
+        a.btn.btn-default.btn-lg.btn-block(href=users_path)
+          span.glyphicon.glyphicon-user
+          |  User Management
+        a.btn.btn-default.btn-lg.btn-block(href=events_path)
+          span.glyphicon.glyphicon-calendar
+          |  Event Management
+        a.btn.btn-default.btn-lg.btn-block(href=wordclouds_path)
+          span.glyphicon.glyphicon-cloud
+          |  Word Cloud Management
+        a.btn.btn-danger.btn-lg.btn-block(href=logout_path)
+          span.glyphicon.glyphicon-log-out
+          |  Logout
