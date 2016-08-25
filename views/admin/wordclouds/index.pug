@@ -17,7 +17,7 @@ block content
         th Operations
     tbody
       each wordcloud in wordclouds
-        tr(class=(current_wordcloud && current_wordcloud._id == wordcloud._id ? 'current' : ''))
+        tr(class=(configurations.current_wordcloud_id == wordcloud._id ? 'current' : ''))
           td= wordcloud.question
           td= wordcloud.event.name
           td

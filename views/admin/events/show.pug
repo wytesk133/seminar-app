@@ -18,7 +18,7 @@ block content
     p Currently disabled
   p: a(href=questionnaire_toggle_path(event)) (click to toggle)
   p
-    if current_event && current_event._id == event._id
+    if configurations.current_event_id == event._id
       | Current event
     else
       a(href=use_event_path(event)) Set current

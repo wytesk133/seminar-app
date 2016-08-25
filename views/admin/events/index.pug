@@ -18,7 +18,7 @@ block content
         th Operations
     tbody
       each event in events
-        tr(class=(current_event && current_event._id == event._id ? 'current' : ''))
+        tr(class=(configurations.current_event_id == event._id ? 'current' : ''))
           td= event.name
           td= event.date
           td: a(href=agenda_path(event)) Download

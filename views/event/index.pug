@@ -1,32 +1,32 @@
 extends ../layout
 
 block content
-  div(class='row')
-    div(class='col-xs-12 col-md-6 col-md-offset-3')
+  .row
+    .col-xs-12.col-md-6.col-md-offset-3
       h1 Hello #{current_participant.name}!
       h2 Welcome to #{current_event.name}!
       p
-        a(href=event_agenda_path, class='btn btn-info btn-lg btn-block')
-          span(class='glyphicon glyphicon-calendar')
+        a.btn.btn-info.btn-lg.btn-block(href=event_agenda_path)
+          span.glyphicon.glyphicon-calendar
           |  Agenda
       p
         if current_wordcloud
-          a(href=event_wordcloud_path, class='btn btn-primary btn-lg btn-block')
-            span(class='glyphicon glyphicon-cloud')
+          a.btn.btn-success.btn-lg.btn-block(href=event_wordcloud_path)
+            span.glyphicon.glyphicon-cloud
             |  Word Cloud Brainstorming
         else
-          a(class='btn btn-default btn-lg btn-block disabled')
-            span(class='glyphicon glyphicon-gift')
+          a.btn.btn-default.btn-lg.btn-block.disabled
+            span.glyphicon.glyphicon-gift
             |  ???
       p
         if current_event.questionnaire && current_event.questionnaire_enabled
           if current_participant.questionnaire
-            a(class='btn btn-default btn-lg btn-block disabled')
-              span(class='glyphicon glyphicon-ok')
+            a.btn.btn-default.btn-lg.btn-block.disabled
+              span.glyphicon.glyphicon-ok
               |  Questionnaire submitted!
               br
               |  Thank you!
           else
-            a(href=event_questionnaire_path, class='btn btn-primary btn-lg btn-block')
-              span(class='glyphicon glyphicon-file')
+            a.btn.btn-primary.btn-lg.btn-block(href=event_questionnaire_path)
+              span.glyphicon.glyphicon-file
               |  Questionnaire

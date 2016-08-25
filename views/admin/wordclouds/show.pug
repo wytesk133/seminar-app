@@ -9,7 +9,7 @@ block content
   label Event
   p= wordcloud.event.name
   p
-    if current_wordcloud && current_wordcloud._id == wordcloud._id
+    if configurations.current_wordcloud_id == wordcloud._id
       | Current word cloud
     else
       a(href=use_wordcloud_path(wordcloud)) Set current

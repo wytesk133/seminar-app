@@ -33,11 +33,11 @@ class User extends Model {
         else {
           this.hashed_password = hash;
           delete this.password;
-          callback(null);
+          callback();
         }
       });
     } else {
-      callback(null);
+      callback();
     }
   }
 
