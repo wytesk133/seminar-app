@@ -70,12 +70,12 @@ router.route('/wordcloud')
 })
 .get((req, res, next) => {
   res.locals.current_participant.wordCloudA(answers => {
-    res.render('event/wordcloud', { answers: answers });
+    res.render('event/wordcloud', { answers: answers.filter(answer => answer.wordCloudQ_id == res.locals.current_wordcloud._id) });
   });
 })
 .post((req, res, next) => {
   new WordCloudA({
-    event_id: res.locals.current_event._id,
+    wordCloudQ_id: res.locals.current_wordcloud._id,
     participant_id: res.locals.current_participant._id,
     word: req.body.word.toString()
   }).save(err => {
