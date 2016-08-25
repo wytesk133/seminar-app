@@ -2,7 +2,7 @@ var router = require('express').Router();
 var async = require('async');
 var params = require('params');
 var db = require('../../lib/db');
-var WordCloudQ = require('../../models/wordcloudQ');
+var WordCloudQ = require('../../models/wordCloudQ');
 var Event = require('../../models/event');
 
 router.use((req, res, next) => {
