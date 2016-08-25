@@ -42,7 +42,7 @@ router.get('/say', (req, res, next) => {
 
 router.route('/questionnaire')
 .all((req, res, next) => {
-  if (!res.locals.current_event.questionnaire_enabled || res.locals.current_participant.questionnaire) {
+  if (!res.locals.current_event.questionnaire || !res.locals.current_event.questionnaire_enabled || res.locals.current_participant.questionnaire) {
     res.redirect(req.app.locals.event_page_path);
   } else {
     next();
