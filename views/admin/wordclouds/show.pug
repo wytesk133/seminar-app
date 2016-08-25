@@ -1,0 +1,19 @@
+extends ../../layout
+
+block content
+  if msg
+    p= msg
+  p: a(href=wordclouds_path) Back
+  label Question
+  p= wordcloud.question
+  label Event
+  p= wordcloud.event.name
+  p
+    if current_wordcloud && current_wordcloud._id == wordcloud._id
+      | Current word cloud
+    else
+      a(href=use_wordcloud_path(wordcloud)) Set current
+    | &nbsp;|&nbsp;
+    a(href=edit_wordcloud_path(wordcloud)) Edit
+    | &nbsp;|&nbsp;
+    a(href=delete_wordcloud_path(wordcloud)) Delete

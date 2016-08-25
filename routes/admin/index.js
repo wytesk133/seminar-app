@@ -7,5 +7,6 @@ router.get('/', (req, res, next) => {
 router.use('/users', require('./users'));
 router.use('/events', require('./events'));
 router.use('/participants', require('./participants'));
+router.use('/wordclouds', require('./wordclouds'));
 
 module.exports = router;

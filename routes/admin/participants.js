@@ -70,8 +70,12 @@ router.param('id', (req, res, next, id) => {
     if (participant) {
       res.locals.participant = participant;
       res.locals.participant.event(event => {
-        res.locals.event = event;
-        next();
+        if (event) {
+          res.locals.event = event;
+          next();
+        } else {
+          next(new Error('Participant: Event not found'));
+        }
       });
     } else {
       next(new Error('Participant not found'));

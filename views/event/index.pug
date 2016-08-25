@@ -10,6 +10,15 @@ block content
           span(class='glyphicon glyphicon-calendar')
           |  Agenda
       p
+        if current_wordcloud
+          a(href=event_wordcloud_path, class='btn btn-primary btn-lg btn-block')
+            span(class='glyphicon glyphicon-cloud')
+            |  Word Cloud Brainstorming
+        else
+          a(class='btn btn-default btn-lg btn-block disabled')
+            span(class='glyphicon glyphicon-gift')
+            |  ???
+      p
         if current_event.questionnaire_enabled
           if current_participant.questionnaire
             a(class='btn btn-default btn-lg btn-block disabled')

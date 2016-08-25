@@ -52,6 +52,7 @@ app.locals.event_page_path = join(app.locals.root_path, 'event');
 app.locals.say_path = join(app.locals.event_page_path, 'say');
 app.locals.event_agenda_path = join(app.locals.event_page_path, 'agenda');
 app.locals.event_questionnaire_path = join(app.locals.event_page_path, 'questionnaire');
+app.locals.event_wordcloud_path = join(app.locals.event_page_path, 'wordcloud');
 // admin
 app.locals.login_path = join(app.locals.root_path, 'login');
 app.locals.logout_path = join(app.locals.root_path, 'logout');
@@ -98,7 +99,7 @@ app.locals.questionnaire_builder_path = event => {
 app.locals.questionnaire_toggle_path = event => {
   return join(app.locals.event_path(event), 'qtoggle');
 };
-app.locals.clear_event_path =  join(app.locals.events_path, 'clear');
+app.locals.clear_event_path = join(app.locals.events_path, 'clear');
 // participants
 app.locals.add_participant_path = event => {
   return join(app.locals.event_path(event), 'add');
@@ -115,6 +116,22 @@ app.locals.edit_participant_path = participant => {
 app.locals.delete_participant_path = participant => {
   return join(app.locals.participant_path(participant), 'delete');
 };
+// wordclouds
+app.locals.wordclouds_path = join(app.locals.admin_path, 'wordclouds');
+app.locals.new_wordcloud_path = join(app.locals.wordclouds_path, 'new');
+app.locals.wordcloud_path = wordcloud => {
+  return join(app.locals.wordclouds_path, wordcloud._id);
+};
+app.locals.edit_wordcloud_path = wordcloud => {
+  return join(app.locals.wordcloud_path(wordcloud), 'edit');
+};
+app.locals.delete_wordcloud_path = wordcloud => {
+  return join(app.locals.wordcloud_path(wordcloud), 'delete');
+};
+app.locals.use_wordcloud_path = wordcloud => {
+  return join(app.locals.wordcloud_path(wordcloud), 'use');
+};
+app.locals.clear_wordcloud_path = join(app.locals.wordclouds_path, 'clear');
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {

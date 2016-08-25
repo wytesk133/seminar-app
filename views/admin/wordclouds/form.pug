@@ -1,0 +1,26 @@
+extends ../../layout
+
+block content
+  if mode == 'new'
+    h1 New Word Cloud
+  else
+    h1 Edit Word Cloud
+  if error
+    p= error
+  form(method='post', autocomplete='off')
+    label(for='question') Question
+    p: input(type='text', id='question', name='wordcloud[question]', placeholder='Question', required, autofocus, value=wordcloud.question)
+    label(for='event_id') Event
+    select(id='event_id', name='wordcloud[event_id]', required)
+      option(value='') Select Event
+      each event in events
+        if event._id == wordcloud.event_id
+          option(value=event._id, selected)= event.name
+        else
+          option(value=event._id)= event.name
+    if mode == 'new'
+      button(type='submit') Create
+      a(href=wordclouds_path) Cancel
+    else
+      button(type='submit') Save
+      a(href=wordcloud_path(wordcloud)) Cancel

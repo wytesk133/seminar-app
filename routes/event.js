@@ -1,6 +1,7 @@
 var router = require('express').Router();
 var db = require('../lib/db');
 var TTS = require('watson-developer-cloud/text-to-speech/v1');
+var WordCloudA = require('../models/wordCloudA');
 
 router.use((req, res, next) => {
   res.locals.title = res.locals.current_event.name;
@@ -42,7 +43,7 @@ router.get('/say', (req, res, next) => {
 router.route('/questionnaire')
 .all((req, res, next) => {
   if (!res.locals.current_event.questionnaire_enabled || res.locals.current_participant.questionnaire) {
-    next(new Error("Don't hack!"));
+    res.redirect(req.app.locals.event_page_path);
   } else {
     next();
   }
@@ -56,6 +57,30 @@ router.route('/questionnaire')
   res.locals.current_participant.save(err => {
     if (err) next(err);
     else res.redirect(req.app.locals.event_page_path);
+  });
+});
+
+router.route('/wordcloud')
+.all((req, res, next) => {
+  if (res.locals.current_wordcloud) {
+    next();
+  } else {
+    res.redirect(req.app.locals.event_page_path);
+  }
+})
+.get((req, res, next) => {
+  res.locals.current_participant.wordCloudA(answers => {
+    res.render('event/wordcloud', { answers: answers });
+  });
+})
+.post((req, res, next) => {
+  new WordCloudA({
+    event_id: res.locals.current_event._id,
+    participant_id: res.locals.current_participant._id,
+    word: req.body.word.toString()
+  }).save(err => {
+    if (err) next(err);
+    else res.end();
   });
 });
 

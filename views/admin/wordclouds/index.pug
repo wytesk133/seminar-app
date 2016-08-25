@@ -1,0 +1,30 @@
+extends ../../layout
+
+block content
+  h1 All Word Clouds
+  a(href=admin_path) Back
+  | &nbsp;|&nbsp;
+  a(href=new_wordcloud_path) New
+  | &nbsp;|&nbsp;
+  a(href=clear_wordcloud_path) Clear current word cloud
+  if msg
+    p= msg
+  table
+    thead
+      tr
+        th Question
+        th Event Name
+        th Operations
+    tbody
+      each wordcloud in wordclouds
+        tr(class=(current_wordcloud && current_wordcloud._id == wordcloud._id ? 'current' : ''))
+          td= wordcloud.question
+          td= wordcloud.event.name
+          td
+            a(href=use_wordcloud_path(wordcloud)) Set current
+            | &nbsp;|&nbsp;
+            a(href=wordcloud_path(wordcloud)) View
+            | &nbsp;|&nbsp;
+            a(href=edit_wordcloud_path(wordcloud)) Edit
+            | &nbsp;|&nbsp;
+            a(href=delete_wordcloud_path(wordcloud)) Delete

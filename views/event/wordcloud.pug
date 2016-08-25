@@ -1,0 +1,30 @@
+extends ../layout
+
+block content
+  .row
+    .col-xs-12.col-md-6.col-md-offset-3
+      h1 Word Cloud
+      h2= current_wordcloud.question
+      form(onSubmit='return false;')
+        .form-group
+          input#word.form-control(name='answers[]', required)
+        p
+          button#add.btn.btn-primary(type='submit') Submit
+          a.btn.btn-default(href=event_page_path) Back to main menu
+      h2 Your previous answers
+      ul#answers
+        each answer in answers
+          li= answer.word
+  script(src='https://code.jquery.com/jquery-3.1.0.min.js')
+  script.
+    $("#add").click(function(e) {
+      var word = $("#word").val();
+      if (word == "") return;
+      e.preventDefault();
+      $("#word").val("");
+      $("#add").attr("disabled", true);
+      $.post("#{event_wordcloud_path}", { word: word }, function() {
+        $("#add").removeAttr("disabled");
+        $("#answers").append("<li>"+word+"</li>");
+      });
+    });
