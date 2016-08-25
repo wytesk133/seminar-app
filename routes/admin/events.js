@@ -138,9 +138,6 @@ router.route('/:id/delete')
   res.render('admin/events/delete');
 })
 .post((req, res, next) => {
-  if (res.locals.configurations.current_event_id == res.locals.event._id) {
-    delete res.locals.configurations.current_event_id;
-  }
   res.locals.event.destroy(err => {
     if (err) {
       req.flash('events_msg')
