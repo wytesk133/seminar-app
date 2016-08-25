@@ -1,0 +1,13 @@
+extends ../../layout
+
+block content
+  .row
+    .col-xs-12
+      #wordcloud(style='width:500px;height:500px;margin:auto')
+  link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/jqcloud/1.0.4/jqcloud.css')
+  script(src='https://code.jquery.com/jquery-3.1.0.min.js')
+  script(src='https://cdnjs.cloudflare.com/ajax/libs/jqcloud/1.0.4/jqcloud-1.0.4.min.js')
+  script.
+    $(function() {
+      $("#wordcloud").jQCloud(!{words});
+    });

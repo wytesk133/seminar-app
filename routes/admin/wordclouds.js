@@ -79,6 +79,28 @@ router.get('/clear', (req, res, next) => {
   });
 });
 
+// GET /wordclouds/result
+// display the word cloud!
+router.get('/result', (req, res, next) => {
+  if (res.locals.current_wordcloud) {
+    res.locals.current_wordcloud.wordCloudA(answers => {
+      var count = {};
+      answers.forEach(answer => {
+        var word = answer.word;
+        if (!count[word]) count[word] = 0;
+        count[word] ++;
+      });
+      var result = [];
+      for (key in count) {
+        result.push({text: key, weight: count[key]});
+      }
+      res.render('admin/wordclouds/result', { words: JSON.stringify(result) });
+    });
+  } else {
+    next(new Error('Please select a word cloud and its event'));
+  }
+});
+
 // GET /wordclouds/:id
 // show
 router.get('/:id', (req, res, next) => {

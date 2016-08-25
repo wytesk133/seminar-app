@@ -132,6 +132,7 @@ app.locals.use_wordcloud_path = wordcloud => {
   return join(app.locals.wordcloud_path(wordcloud), 'use');
 };
 app.locals.clear_wordcloud_path = join(app.locals.wordclouds_path, 'clear');
+app.locals.view_wordcloud_path = join(app.locals.wordclouds_path, 'result');
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
