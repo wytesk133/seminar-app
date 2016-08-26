@@ -22,13 +22,13 @@ router.use((req, res, next) => {
 // index
 router.get('/', (req, res, next) => {
   WordCloudQ.all(wordclouds => {
-    async.each(wordclouds, (wordcloud, callback) => {
+    async.eachSeries(wordclouds, (wordcloud, callback) => {
       wordcloud.event(event => {
         if (event) {
-          wordcloud.event = event;
+          wordcloud.event_name = event.name;
           callback();
         } else {
-          callback(new Error('Participant list: Event not found'));
+          callback(new Error('Word cloud list: Event not found'));
         }
       });
     }, err => {
@@ -104,7 +104,14 @@ router.get('/result', (req, res, next) => {
 // GET /wordclouds/:id
 // show
 router.get('/:id', (req, res, next) => {
-  res.render('admin/wordclouds/show', { msg: req.flash('wordclouds_msg') });
+  res.locals.wordcloud.event(event => {
+    if (event) {
+      res.locals.wordcloud.event_name = event.name;
+      res.render('admin/wordclouds/show', { msg: req.flash('wordclouds_msg') });
+    } else {
+      callback(new Error('Word cloud: Event not found'));
+    }
+  });
 });
 
 // GET /wordclouds/:id/edit
@@ -171,16 +178,9 @@ router.param('id', (req, res, next, id) => {
   WordCloudQ.find(id, wordcloud => {
     if (wordcloud) {
       res.locals.wordcloud = wordcloud;
-      Event.find(wordcloud.event_id, event => {
-        if (event) {
-          wordcloud.event = event;
-          next();
-        } else {
-          next(new Error('Wordcloud: Event not found'));
-        }
-      });
+      next();
     } else {
-      next(new Error('Wordcloud not found'));
+      next(new Error('Word cloud not found'));
     }
   });
 });

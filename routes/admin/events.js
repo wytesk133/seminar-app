@@ -179,7 +179,7 @@ router.get('/:id/agenda', (req, res, next) => {
 router.get('/:id/qr', (req, res, next) => {
   var zip = new Zip();
   res.locals.event.participants(participants => {
-    async.each(participants, (participant, next) => {
+    async.eachSeries(participants, (participant, next) => {
       var stream = qr.image(`https://seminar-app.mybluemix.net/enter/${participant.token}`, { type: 'png' });
       streamToBuffer(stream, (err, buffer) => {
         name = participant.name.replace(' ', '_').replace(/[^A-Za-z_]/g, '');
@@ -203,7 +203,7 @@ router.get('/:id/qr', (req, res, next) => {
 // GET /events/:id/clear
 router.get('/:id/clear', (req, res, next) => {
   res.locals.event.participants(participants => {
-    async.each(participants, (participant, next) => {
+    async.eachSeries(participants, (participant, next) => {
       delete participant.entered;
       participant.save(next);
     }, err => {

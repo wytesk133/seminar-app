@@ -21,7 +21,7 @@ block content
       each wordcloud in wordclouds
         tr(class=(configurations.current_wordcloud_id == wordcloud._id ? 'current' : ''))
           td= wordcloud.question
-          td= wordcloud.event.name
+          td= wordcloud.event_name
           td
             a(href=use_wordcloud_path(wordcloud)) Set current
             | &nbsp;|&nbsp;
