@@ -64,6 +64,20 @@ router.route('/:id/delete')
   });
 });
 
+// GET /participants/:id/reset
+// reset participation (entry & questionnaire)
+router.get('/:id/reset', (req, res, next) => {
+  delete res.locals.participant.entered;
+  delete res.locals.participant.questionnaire;
+  res.locals.participant.save(err => {
+    if (err) {
+      next(err);
+    } else {
+      res.redirect(req.app.locals.participant_path(res.locals.participant));
+    }
+  });
+});
+
 // parse participant id
 router.param('id', (req, res, next, id) => {
   Participant.find(id, participant => {

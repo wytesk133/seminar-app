@@ -12,7 +12,7 @@ block content
         .radio
           - for(i=1;i<=5;i++) {
             label.radio-inline
-              input(type='radio', name='answers['+index+']', value=i, required)
+              input(type='radio', name='answers['+index+']', value=i)
               = i
           - }
     p

@@ -200,11 +200,13 @@ router.get('/:id/qr', (req, res, next) => {
   });
 });
 
-// GET /events/:id/clear
-router.get('/:id/clear', (req, res, next) => {
+// GET /events/:id/reset
+// reset participation (entry & questionnaire)
+router.get('/:id/reset', (req, res, next) => {
   res.locals.event.participants(participants => {
     async.eachSeries(participants, (participant, next) => {
       delete participant.entered;
+      delete participant.questionnaire;
       participant.save(next);
     }, err => {
       if (err) {
@@ -328,7 +330,7 @@ router.route('/:id/questionnaire')
 });
 
 // questionnaire toggle
-router.get('/:id/qtoggle', (req, res, next) => {
+router.get('/:id/toggle', (req, res, next) => {
   var event = res.locals.event;
   event.questionnaire_enabled = !event.questionnaire_enabled;
   event.save(err => {

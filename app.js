@@ -90,14 +90,14 @@ app.locals.agenda_path = event => {
 app.locals.qr_path = event => {
   return join(app.locals.event_path(event), 'qr');
 };
-app.locals.clear_entry_path = event => {
-  return join(app.locals.event_path(event), 'clear');
+app.locals.reset_event_path = event => {
+  return join(app.locals.event_path(event), 'reset');
 };
 app.locals.questionnaire_builder_path = event => {
   return join(app.locals.event_path(event), 'questionnaire');
 };
 app.locals.questionnaire_toggle_path = event => {
-  return join(app.locals.event_path(event), 'qtoggle');
+  return join(app.locals.event_path(event), 'toggle');
 };
 app.locals.clear_event_path = join(app.locals.events_path, 'clear');
 // participants
@@ -115,6 +115,9 @@ app.locals.edit_participant_path = participant => {
 };
 app.locals.delete_participant_path = participant => {
   return join(app.locals.participant_path(participant), 'delete');
+};
+app.locals.reset_participant_path = participant => {
+  return join(app.locals.participant_path(participant), 'reset');
 };
 // wordclouds
 app.locals.wordclouds_path = join(app.locals.admin_path, 'wordclouds');
