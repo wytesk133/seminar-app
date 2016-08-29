@@ -10,11 +10,25 @@ block content
           input.form-control(name='answers['+index+']', required)
       if q.type == 'rating'
         .radio
-          - for(i=1;i<=5;i++) {
-            label.radio-inline
-              input(type='radio', name='answers['+index+']', value=i)
-              = i
-          - }
+          label
+            input(type='radio', name='answers['+index+']', value='0')
+            | Very poor
+        .radio
+          label
+            input(type='radio', name='answers['+index+']', value='1')
+            | Poor
+        .radio
+          label
+            input(type='radio', name='answers['+index+']', value='2')
+            | Fair
+        .radio
+          label
+            input(type='radio', name='answers['+index+']', value='3')
+            | Good
+        .radio
+          label
+            input(type='radio', name='answers['+index+']', value='4')
+            | Very good
     p
       button.btn.btn-primary(type='submit') Submit
       | &nbsp;

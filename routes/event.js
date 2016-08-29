@@ -74,6 +74,7 @@ router.route('/wordcloud')
   });
 })
 .post((req, res, next) => {
+  // TODO: sanitize
   new WordCloudA({
     wordCloudQ_id: res.locals.current_wordcloud._id,
     participant_id: res.locals.current_participant._id,

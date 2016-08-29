@@ -27,9 +27,14 @@ block content
           i.fa.fa-toggle-on.text-success
         else
           i.fa.fa-toggle-off.text-danger
-    p.form-control-static: a(href=questionnaire_builder_path(event))
-      i.fa.fa-file-text
-      |  Questionnaire Builder
+    p.form-control-static
+      a(href=questionnaire_builder_path(event))
+        i.fa.fa-file-text
+        |  Questionnaire Builder
+      br
+      a(href=questionnaire_result_path(event))
+        i.fa.fa-pie-chart
+        |  Questionnaire Result
   p
     if configurations.current_event_id == event._id
       a.btn.btn-default.disabled Current event

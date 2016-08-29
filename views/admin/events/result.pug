@@ -1,0 +1,29 @@
+extends ../../layouts/admin
+
+block content
+  script(src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.2.2/Chart.min.js')
+  script.
+    var labels = [ "Very poor", "Poor", "Fair", "Good", "Very Good" ];
+    var colors = [ "red", "orange", "yellow", "lime", "green" ];
+  h1 #{current_event.name} Feedback Result
+  p: a.btn.btn-default(href=event_path(event)) Back
+  each q, index in questions
+    h2= q.question
+    if q.type == 'text'
+      ul
+        each a in answers[index]
+          li= a
+    else if q.type == 'rating'
+      canvas(id='chart'+index)
+      script.
+        new Chart(document.getElementById("chart#{index}"), {
+          type: 'pie',
+          data: {
+            labels: labels,
+            datasets: [{
+              data: [#{answers[index]}],
+              backgroundColor: colors
+            }]
+          }
+        });
+  p: a.btn.btn-default(href=event_path(event)) Back

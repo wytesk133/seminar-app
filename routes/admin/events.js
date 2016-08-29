@@ -45,6 +45,7 @@ router.route('/new')
 })
 .post(upload.single('agenda'), (req, res, next) => {
   event = new Event(req.body.event);
+  event.questionnaire = [];
   event.save(err => {
     if (err) {
       res.render('admin/events/form', { event: event, error: 'Error saving: ' + err.message });
@@ -313,7 +314,7 @@ router.route('/:id/import')
 // questionnaire builder
 router.route('/:id/questionnaire')
 .get((req, res, next) => {
-  res.locals.questionnaire = JSON.stringify(res.locals.event.questionnaire || []);
+  res.locals.questionnaire = JSON.stringify(res.locals.event.questionnaire);
   res.render('admin/events/questionnaire', { title: 'Questionnaire Builder' });
 })
 .post((req, res, next) => {
@@ -336,6 +337,34 @@ router.get('/:id/toggle', (req, res, next) => {
   event.save(err => {
     if (err) next(err);
     else res.redirect(req.app.locals.event_path(event));
+  });
+});
+
+// questionnaire result
+router.get('/:id/result', (req, res, next) => {
+  // TODO: what if the questions were altered after someone submitted a response
+  var questions = res.locals.event.questionnaire;
+  var answers = [];
+  questions.forEach(q => {
+    if (q.type == 'text') {
+      answers.push([]);
+    } else if (q.type == 'rating') {
+      answers.push([0, 0, 0, 0, 0]);
+    }
+  });
+  res.locals.event.participants(participants => {
+    participants.forEach(participant => {
+      if (!participant.questionnaire) return;
+      for (var i = 0; i < questions.length; i ++) {
+        if (questions[i].type == 'text') {
+          answers[i].push(participant.questionnaire[i]);
+        } else if (questions[i].type == 'rating') {
+          // TODO: parseInt at saving instead
+          answers[i][parseInt(participant.questionnaire[i])] ++;
+        }
+      }
+    });
+    res.render('admin/events/result', { questions: questions, answers: answers });
   });
 });
 
