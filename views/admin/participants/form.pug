@@ -1,4 +1,4 @@
-extends ../../layout
+extends ../../layouts/admin
 
 block content
   if mode == 'new'
@@ -8,15 +8,26 @@ block content
   if error
     p= error
   form(method='post', autocomplete='off')
-    label(for='name') Name
-    p: input(type='text', id='name', name='participant[name]', placeholder='Participant Name', required, autofocus, value=participant.name)
-    label(for='position') Position
-    p: input(type='text', id='position', name='participant[position]', placeholder='Participant Position', required, value=participant.position)
-    label(for='company') Company
-    p: input(type='text', id='company', name='participant[company]', placeholder='Participant Company', required, value=participant.company)
+    .form-group
+      label(for='name') Name
+      p: input.form-control(type='text', id='name', name='participant[name]', placeholder='Participant Name', required, autofocus, value=participant.name)
+    .form-group
+      label(for='position') Position
+      p: input.form-control(type='text', id='position', name='participant[position]', placeholder='Participant Position', value=participant.position)
+    .form-group
+      label(for='company') Company
+      p: input.form-control(type='text', id='company', name='participant[company]', placeholder='Participant Company', value=participant.company)
     if mode == 'new'
-      button(type='submit') Create
-      a(href=event_path(event)) Cancel
+      button.btn.btn-primary(type='submit')
+        i.fa.fa-plus-circle
+        |  Create
+      | &nbsp;
+      a.btn.btn-default(href=event_path(event)) Cancel
     else
-      button(type='submit') Save
-      a(href=participant_path(participant)) Cancel
+      label(for='token') Token
+      p: input.form-control(type='text', id='token', name='participant[token]', placeholder='Token', value=participant.token)
+      button.btn.btn-primary(type='submit')
+        i.fa.fa-floppy-o
+        |  Save
+      | &nbsp;
+      a.btn.btn-default(href=participant_path(participant)) Cancel

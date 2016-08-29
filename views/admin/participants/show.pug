@@ -1,20 +1,33 @@
-extends ../../layout
+extends ../../layouts/admin
 
 block content
-  if msg
-    p= msg
-  p: a(href=event_path(event)) Back
-  label Name
-  p= participant.name
-  label Position
-  p= participant.position
-  label Company
-  p= participant.company
-  label Token
-  p= participant.token
-  label Entered
-  p= participant.entered ? 'Yes' : 'No'
+  h1
+  if msg != ''
+    .alert.alert-info= msg
+  p: a.btn.btn-default(href=event_path(event)) Back
+  .form-group
+    label Name
+    p.form-control-static= participant.name
+  .form-group
+    label Position
+    p.form-control-static= participant.position
+  .form-group
+    label Company
+    p.form-control-static= participant.company
+  .form-group
+    label Token
+    p.form-control-static= participant.token
+  .form-group
+    label Entered
+    p.form-control-static= participant.entered ? 'Yes' : 'No'
+  .form-group
+    label Answered Questionnaire
+    p.form-control-static= participant.questionnaire ? 'Yes' : 'No'
   p
-    a(href=edit_participant_path(participant)) Edit
-    | &nbsp;|&nbsp;
-    a(href=delete_participant_path(participant)) Delete
+    a.btn.btn-info(href=edit_participant_path(participant))
+      i.fa.fa-pencil
+      |  Edit
+    | &nbsp;
+    a.btn.btn-danger(href=delete_participant_path(participant))
+      i.fa.fa-trash
+      |  Delete

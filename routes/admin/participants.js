@@ -5,8 +5,8 @@ var params = require('params');
 router.use((req, res, next) => {
   res.locals.title = 'Participant Management';
   if (req.body.participant) {
-    params(req.body.participant).require('name', 'company');
-    req.body.participant = params(req.body.participant).only('name', 'position', 'company');
+    params(req.body.participant).require('name');
+    req.body.participant = params(req.body.participant).only('name', 'position', 'company', 'token');
   }
   next();
 });

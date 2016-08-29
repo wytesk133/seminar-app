@@ -1,4 +1,4 @@
-extends ../../layout
+extends ../../layouts/admin
 
 block content
   if mode == 'new'
@@ -8,15 +8,24 @@ block content
   if error
     p= error
   form(method='post', enctype='multipart/form-data', autocomplete='off')
-    label(for='name') Name
-    p: input(type='text', id='name', name='event[name]', placeholder='Event Name', required, autofocus, value=event.name)
-    label(for='date') Date
-    p: input(type='date', id='date', name='event[date]', placeholder='YYYY-MM-DD', value=event.date)
-    label(for='agenda') Agenda (.pdf)
-    p: input(type='file', id='agenda', name='agenda')
+    .form-group
+      label(for='name') Name
+      p: input.form-control(type='text', id='name', name='event[name]', placeholder='Event Name', required, autofocus, value=event.name)
+    .form-group
+      label(for='date') Date
+      p: input.form-control(type='date', id='date', name='event[date]', placeholder='YYYY-MM-DD', value=event.date)
+    .from-group
+      label(for='agenda') Agenda (.pdf)
+      p: input(type='file', id='agenda', name='agenda')
     if mode == 'new'
-      button(type='submit') Create
-      a(href=events_path) Cancel
+      button.btn.btn-primary(type='submit')
+        i.fa.fa-plus-circle
+        |  Create
+      | &nbsp;
+      a.btn.btn-default(href=events_path) Cancel
     else
-      button(type='submit') Save
-      a(href=event_path(event)) Cancel
+      button.btn.btn-primary(type='submit')
+        i.fa.fa-floppy-o
+        |  Save
+      | &nbsp;
+      a.btn.btn-default(href=event_path(event)) Cancel

@@ -1,15 +1,18 @@
-extends ../../layout
+extends ../../layouts/admin
 
 block content
   h1 All Events
-  a(href=admin_path) Back
-  | &nbsp;|&nbsp;
-  a(href=new_event_path) New
-  | &nbsp;|&nbsp;
-  a(href=clear_event_path) Clear current event
-  if msg
-    p= msg
-  table
+  if msg != ''
+    .alert.alert-info= msg
+  p
+    a.btn.btn-default(href=admin_path) Back
+    | &nbsp;
+    a.btn.btn-primary(href=new_event_path)
+      i.fa.fa-plus
+      |  New
+    | &nbsp;
+    a.btn.btn-warning(href=clear_event_path) Clear current event
+  table.table.table-striped.table-hover
     thead
       tr
         th Name
@@ -18,13 +21,19 @@ block content
         th Operations
     tbody
       each event in events
-        tr(class=(configurations.current_event_id == event._id ? 'current' : ''))
+        tr(class=(configurations.current_event_id == event._id ? 'success' : ''))
           td= event.name
-          td= event.date
-          td: a(href=agenda_path(event)) Download
           td
-            a(href=use_event_path(event)) Set current
-            | &nbsp;|&nbsp;
+            i.fa.fa-calendar
+            | &nbsp;
+            = event.date
+          td: a(href=agenda_path(event))
+            | Download&nbsp;
+            i.fa.fa-download
+          td
+            if configurations.current_event_id != event._id
+              a(href=use_event_path(event)) Set current
+              | &nbsp;|&nbsp;
             a(href=event_path(event)) View
             | &nbsp;|&nbsp;
             a(href=edit_event_path(event)) Edit

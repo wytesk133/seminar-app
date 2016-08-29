@@ -1,8 +1,8 @@
-extends layout
+extends layouts/default
 
 block content
   if current_event
     h1 Welcome to #{current_event.name}!
-    h2 Please sign in using your QR Code
+    h2 Please use an app on your phone to scan the QR Code on the back of your name tag
   else
     h1 Service Unavailable

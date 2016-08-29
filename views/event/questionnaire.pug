@@ -1,23 +1,21 @@
-extends ../layout
+extends ../layouts/user
 
 block content
-  .row
-    .col-xs-12.col-md-6.col-md-offset-3
-      h1 #{current_event.name} Feedback
-      form(method='post')
-        each q, index in current_event.questionnaire
-          h3= q.question
-          if q.type == 'text'
-            .form-group
-              input.form-control(name='answers['+index+']', required)
-          if q.type == 'rating'
-            .radio
-              - for(i=1;i<=5;i++) {
-                label.radio-inline
-                  input(type='radio', name='answers['+index+']', value=i, required)
-                  = i
-              - }
-        p
-          button.btn.btn-primary(type='submit') Submit
-          | &nbsp;
-          a.btn.btn-default(href=event_page_path) Cancel
+  h1 #{current_event.name} Feedback
+  form(method='post')
+    each q, index in current_event.questionnaire
+      h3= q.question
+      if q.type == 'text'
+        .form-group
+          input.form-control(name='answers['+index+']', required)
+      if q.type == 'rating'
+        .radio
+          - for(i=1;i<=5;i++) {
+            label.radio-inline
+              input(type='radio', name='answers['+index+']', value=i, required)
+              = i
+          - }
+    p
+      button.btn.btn-primary(type='submit') Submit
+      | &nbsp;
+      a.btn.btn-default(href=event_page_path) Cancel

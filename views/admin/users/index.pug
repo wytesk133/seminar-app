@@ -1,13 +1,16 @@
-extends ../../layout
+extends ../../layouts/admin
 
 block content
   h1 All Users
-  a(href=admin_path) Back
-  | &nbsp;|&nbsp;
-  a(href=new_user_path) New
-  if msg
-    p= msg
-  table
+  if msg != ''
+    .alert.alert-info= msg
+  p
+    a.btn.btn-default(href=admin_path) Back
+    | &nbsp;
+    a.btn.btn-primary(href=new_user_path)
+      i.fa.fa-plus
+      |  New
+  table.table.table-striped.table-hover
     thead
       tr
         th Username

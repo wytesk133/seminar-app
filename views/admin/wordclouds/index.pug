@@ -1,17 +1,22 @@
-extends ../../layout
+extends ../../layouts/admin
 
 block content
   h1 All Word Clouds
-  a(href=admin_path) Back
-  | &nbsp;|&nbsp;
-  a(href=new_wordcloud_path) New
-  | &nbsp;|&nbsp;
-  a(href=clear_wordcloud_path) Clear current word cloud
-  | &nbsp;|&nbsp;
-  a(href=view_wordcloud_path) View result
-  if msg
-    p= msg
-  table
+  if msg != ''
+    .alert.alert-info= msg
+  p
+    a.btn.btn-default(href=admin_path) Back
+    | &nbsp;
+    a.btn.btn-primary(href=new_wordcloud_path)
+      i.fa.fa-plus
+      |  New
+    | &nbsp;
+    a.btn.btn-warning(href=clear_wordcloud_path) Clear current word cloud
+    | &nbsp;
+    a.btn.btn-success(href=view_wordcloud_path)
+      i.fa.fa-cloud
+      |  View result
+  table.table.table-striped.table-hover
     thead
       tr
         th Question
@@ -19,12 +24,13 @@ block content
         th Operations
     tbody
       each wordcloud in wordclouds
-        tr(class=(configurations.current_wordcloud_id == wordcloud._id ? 'current' : ''))
+        tr(class=(configurations.current_wordcloud_id == wordcloud._id ? 'success' : ''))
           td= wordcloud.question
           td= wordcloud.event_name
           td
-            a(href=use_wordcloud_path(wordcloud)) Set current
-            | &nbsp;|&nbsp;
+            if configurations.current_wordcloud_id != wordcloud._id
+              a(href=use_wordcloud_path(wordcloud)) Set current
+              | &nbsp;|&nbsp;
             a(href=wordcloud_path(wordcloud)) View
             | &nbsp;|&nbsp;
             a(href=edit_wordcloud_path(wordcloud)) Edit

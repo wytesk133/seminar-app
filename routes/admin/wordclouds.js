@@ -91,7 +91,7 @@ router.get('/result', (req, res, next) => {
         count[word] ++;
       });
       var result = [];
-      for (key in count) {
+      for (var key in count) {
         result.push({text: key, weight: count[key]});
       }
       res.render('admin/wordclouds/result', { words: JSON.stringify(result) });

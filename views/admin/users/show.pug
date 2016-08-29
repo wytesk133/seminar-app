@@ -1,14 +1,21 @@
-extends ../../layout
+extends ../../layouts/admin
 
 block content
-  if msg
-    p= msg
-  p: a(href=users_path) Back
-  label Username
-  p= user.username
-  label Full Name
-  p= user.full_name
+  h1
+  if msg != ''
+    .alert.alert-info= msg
+  p: a.btn.btn-default(href=users_path) Back
+  .form-group
+    label Username
+    p.form-control-static= user.username
+  .form-group
+    label Full Name
+    p.form-control-static= user.full_name
   p
-    a(href=edit_user_path(user)) Edit
-    | &nbsp;|&nbsp;
-    a(href=delete_user_path(user)) Delete
+    a.btn.btn-info(href=edit_user_path(user))
+      i.fa.fa-pencil
+      |  Edit
+    | &nbsp;
+    a.btn.btn-danger(href=delete_user_path(user))
+      i.fa.fa-trash
+      |  Delete

@@ -1,23 +1,27 @@
-extends ../../layout
+extends ../../layouts/admin
 
 block content
   h1 Questionnaire Builder
   div(ng-app='seminarApp', ng-controller='QuestionnaireBuilderController')
     h2 Questions
-    form(method='post', action=questionnaire_builder_path(event))
-      div(ng-repeat='q in questionnaire')
-        input(ng-model='q.question', required)
-        select(ng-model='q.type', ng-options='option.value as option.name for option in types')
-        button(ng-click='remove(q)') x
+    form.form-horizontal(method='post', action=questionnaire_builder_path(event))
+      .form-group(ng-repeat='q in questionnaire')
+        .col-xs-9: input.form-control(ng-model='q.question', required, placeholder='Question Text')
+        .col-xs-2: select.form-control(ng-model='q.type', ng-options='option.value as option.name for option in types')
+        .col-xs-1: button.btn.btn-danger(ng-click='remove(q)'): i.fa.fa-times
       input(type='hidden', name='questionnaire', value='{{questionnaire}}')
-      button(type='submit') Save
-      a(href=event_path(event)) Cancel
+      button.btn.btn-primary(type='submit')
+        i.fa.fa-floppy-o
+        |  Save
+      | &nbsp;
+      a.btn.btn-default(href=event_path(event)) Cancel
     h2 New Question
-    form(ng-submit='add()')
-      input(ng-model='new.question', required, placeholder='Question Text')
-      select(ng-model='new.type', ng-options='option.value as option.name for option in types', required)
-        option(value='') Question Type
-      button(type='submit') +
+    form.form-horizontal(ng-submit='add()')
+      .form-group
+        .col-xs-9: input.form-control(ng-model='new.question', required, placeholder='Question Text')
+        .col-xs-2: select.form-control(ng-model='new.type', ng-options='option.value as option.name for option in types', required)
+          option(value='') Question Type
+        .col-xs-1: button.btn.btn-default(type='submit'): i.fa.fa-plus
   script var data=!{questionnaire};
   script(defer, src='https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js')
   script(defer, src=javascripts_path+'/app.js')

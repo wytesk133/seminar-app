@@ -1,19 +1,26 @@
-extends ../../layout
+extends ../../layouts/admin
 
 block content
-  if msg
-    p= msg
-  p: a(href=wordclouds_path) Back
-  label Question
-  p= wordcloud.question
-  label Event
-  p= wordcloud.event_name
+  h1
+  if msg != ''
+    .alert.alert-info= msg
+  p: a.btn.btn-default(href=wordclouds_path) Back
+  .form-group
+    label Question
+    p.form-control-static= wordcloud.question
+  .form-group
+    label Event
+    p.form-control-static= wordcloud.event_name
   p
     if configurations.current_wordcloud_id == wordcloud._id
-      | Current word cloud
+      a.btn.btn-default.disabled Current word cloud
     else
-      a(href=use_wordcloud_path(wordcloud)) Set current
-    | &nbsp;|&nbsp;
-    a(href=edit_wordcloud_path(wordcloud)) Edit
-    | &nbsp;|&nbsp;
-    a(href=delete_wordcloud_path(wordcloud)) Delete
+      a.btn.btn-success(href=use_wordcloud_path(wordcloud)) Set current
+    | &nbsp;
+    a.btn.btn-info(href=edit_wordcloud_path(wordcloud))
+      i.fa.fa-pencil
+      |  Edit
+    | &nbsp;
+    a.btn.btn-danger(href=delete_wordcloud_path(wordcloud))
+      i.fa.fa-trash
+      |  Delete

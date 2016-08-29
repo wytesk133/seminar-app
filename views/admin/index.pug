@@ -1,19 +1,18 @@
-extends ../layout
+extends ../layouts/user
 
 block content
-  .row
-    .col-xs-12.col-md-6.col-md-offset-3
-      h1 Welcome #{current_user.full_name}!
-      p
-        a.btn.btn-default.btn-lg.btn-block(href=users_path)
-          span.glyphicon.glyphicon-user
-          |  User Management
-        a.btn.btn-default.btn-lg.btn-block(href=events_path)
-          span.glyphicon.glyphicon-calendar
-          |  Event Management
-        a.btn.btn-default.btn-lg.btn-block(href=wordclouds_path)
-          span.glyphicon.glyphicon-cloud
-          |  Word Cloud Management
-        a.btn.btn-danger.btn-lg.btn-block(href=logout_path)
-          span.glyphicon.glyphicon-log-out
-          |  Logout
+  .page-header
+    h1 Welcome #{current_user.full_name}!
+  p
+    a.btn.btn-default.btn-lg.btn-block(href=users_path)
+      i.fa.fa-user
+      |  User Management
+    a.btn.btn-default.btn-lg.btn-block(href=events_path)
+      i.fa.fa-calendar
+      |  Event Management
+    a.btn.btn-default.btn-lg.btn-block(href=wordclouds_path)
+      i.fa.fa-cloud
+      |  Word Cloud Management
+    a.btn.btn-warning.btn-lg.btn-block(href=logout_path)
+      i.fa.fa-sign-out
+      |  Logout

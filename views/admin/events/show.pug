@@ -1,42 +1,66 @@
-extends ../../layout
+extends ../../layouts/admin
 
 block content
-  if msg
-    p= msg
-  p: a(href=events_path) Back
-  label Name
-  p= event.name
-  label Date
-  p= event.date
-  label Agenda
-  p: a(href=agenda_path(event)) agenda.pdf
-  label Questionnaire
-  p: a(href=questionnaire_builder_path(event)) Go to questionnaire builder
-  if event.questionnaire_enabled
-    p Currently enabled
-  else
-    p Currently disabled
-  p: a(href=questionnaire_toggle_path(event)) (click to toggle)
+  h1
+  if msg != ''
+    .alert.alert-info= msg
+  p: a.btn.btn-default(href=events_path) Back
+  .form-group
+    label Name
+    p.form-control-static= event.name
+  .form-group
+    label Date
+    p.form-control-static
+      i.fa.fa-calendar
+      | &nbsp;
+      = event.date
+  .form-group
+    label Agenda
+    p: a.btn.btn-default(href=agenda_path(event))
+      i.fa.fa-download
+      |  Download (PDF)
+  .form-group
+    label
+      | Questionnaire&nbsp;
+      a(href=questionnaire_toggle_path(event), style='font-size:200%')
+        if event.questionnaire_enabled
+          i.fa.fa-toggle-on.text-success
+        else
+          i.fa.fa-toggle-off.text-danger
+    p.form-control-static: a(href=questionnaire_builder_path(event))
+      i.fa.fa-file-text
+      |  Questionnaire Builder
   p
     if configurations.current_event_id == event._id
-      | Current event
+      a.btn.btn-default.disabled Current event
     else
-      a(href=use_event_path(event)) Set current
-    | &nbsp;|&nbsp;
-    a(href=edit_event_path(event)) Edit
-    | &nbsp;|&nbsp;
-    a(href=delete_event_path(event)) Delete
+      a.btn.btn-success(href=use_event_path(event)) Set current
+    | &nbsp;
+    a.btn.btn-info(href=edit_event_path(event))
+      i.fa.fa-pencil
+      |  Edit
+    | &nbsp;
+    a.btn.btn-danger(href=delete_event_path(event))
+      i.fa.fa-trash
+      |  Delete
   h1 Participants
-  a(href=add_participant_path(event)) Add
-  | &nbsp;|&nbsp;
-  a(href=import_participant_path(event)) Import
-  | &nbsp;|&nbsp;
-  a(href=qr_path(event)) Download QR Code (zip)
-  | &nbsp;|&nbsp;
-  a(href=clear_entry_path(event)) Clear entry
-  if participants_msg
-    p= participants_msg
-  table
+  if participants_msg != ''
+    .alert.alert-info= participants_msg
+  p
+    a.btn.btn-primary(href=add_participant_path(event))
+      i.fa.fa-user-plus
+      |  Add
+    | &nbsp;
+    a.btn.btn-default(href=import_participant_path(event))
+      i.fa.fa-upload
+      |  Import
+    | &nbsp;
+    a.btn.btn-info(href=qr_path(event))
+      i.fa.fa-file-archive-o
+      |  Download QR Code (zip)
+    | &nbsp;
+    a.btn.btn-danger(href=clear_entry_path(event)) Clear entry
+  table.table.table-striped.table-hover
     thead
       tr
         th Name
@@ -44,6 +68,7 @@ block content
         th Company
         th Token
         th Entered
+        th Questionnaire
         th Operations
     tbody
       each participant in participants
@@ -52,7 +77,12 @@ block content
           td= participant.position
           td= participant.company
           td= participant.token
-          td= participant.entered ? 'Yes' : 'No'
+          td
+            if participant.entered
+              i.fa.fa-check
+          td
+            if participant.questionnaire
+              i.fa.fa-check
           td
             a(href=participant_path(participant)) View
             | &nbsp;|&nbsp;
